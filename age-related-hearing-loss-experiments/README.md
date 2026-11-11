@@ -9,7 +9,7 @@
 
 This repository contains the implementations of three browser-based auditory perception experiments developed as part of a research project investigating age-related differences in speech perception under challenging listening conditions. The experiments contributed to the following peer-reviewed journal article:
 
-**Age-related deficits in dip-listening evident for isolated sentences but not for spoken stories — Irsik et al.**
+**Age-related deficits in dip-listening evident for isolated sentences but not for spoken stories — Irsik et al., 2022**
 
 The research investigated how speech perception differs across listening contexts, including isolated sentences and continuous spoken narratives, and examined age-related differences in the ability to understand speech presented with background noise.
 
