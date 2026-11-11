@@ -26,26 +26,28 @@ The experiment incorporated:
 *  Hearing-related and demographic questionnaires
 *  Volume adjustment, headphone verification, and practice procedures
 
-The experiment was designed to collect behavioral measures of speech perception and comprehension under controlled listening conditions.
-
-**Technical Implementation:**
+**Technical Implementation and Dependencies:**
 
 The experiment was implemented using JavaScript, HTML, CSS, and jsPsych 6.1.0, with Pavlovia used for online experiment hosting.
 
+*  JavaScript and HTML — Custom experimental logic, stimulus presentation, and behavioral response collection
+*  jsPsych 6.1.0 — JavaScript framework for behavioral experiments
+*  CSS — Experimental interface styling
+*  Pavlovia — Online experiment hosting
 
+The experiment was originally developed using jsPsych 6.1.0. The jsPsych library files are not included in this repository. For more information about the framework, see the jsPsych GitHub repository (https://www.jspsych.org/latest/).
+
+ Note: The experiment requires the original jsPsych version and restricted audio stimuli to run as originally implemented.
 
 **Repository Contents:**
 
- The primary experimental implementation is contained in index.html, including the custom JavaScript responsible for experimental logic, stimulus selection, and response handling. Supporting files include CSS styling, jsPsych components, and participant-facing experimental materials.
-
-
+ The primary experimental implementation is contained in index.html, including the custom JavaScript responsible for experimental logic, stimulus selection, and response handling.
 
 **Data and Stimulus Availability:**
 
 Participant data and original audio stimuli are not included in this repository due to research confidentiality and ownership considerations. The experimental code is provided to demonstrate the study design and technical implementation. Access to the original audio stimuli may be requested.
 
  **Note**: The experiment cannot be run in its entirety without the restricted audio stimuli.
-
 
  Associated Publication
  Irsik et al., Age-related deficits in dip-listening evident for isolated sentences but not for spoken stories. This repository represents one of three experiments contributing to the publication (Experiment 2).
