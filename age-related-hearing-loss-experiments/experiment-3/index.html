@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Story Task</title>
+
+	<meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
+	
+    <script type="text/javascript" src="jspsych-6.1.0/jspsych.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-audio-button-response.js"></script>
+    <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-select.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-external-html.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+    <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
+ 	<script type="text/javascript" src="https://lib.pavlovia.org/jspsych-pavlovia-3.0.0.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/js/serverComm.js"></script>
+	<link rel="stylesheet" type="text/css" href="jspsych-6.1.0/css/jspsych.css">
+	
+  </head>
+  <body>
+  <script>
+
+// generate subj ID for Mturk	
+var subject_id = jsPsych.randomization.randomID(8);
+
+jsPsych.data.addProperties({
+  subject: subject_id,
+ 
+});
+
+/////////////////////////
+////     CONSENT     ////
+/////////////////////////
+
+
+var LOI_trial = {
+type:'external-html',
+url: "consent_check.html",
+cont_btn: "start",
+};
+
+var consent_options = ["I agree to take part in this study"];
+var consent_trial = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "<p><b><u>Consent Form</u></b></p> <br><b>Project Title:</b> Studies in auditory category learning, memory, and generalization</p><br><b>Study Investigator's Name:</b> Stephen Van Hedger</p><br>I have read the Letter of Information, understood its contents, and agree to participate. I understand the requirements of this study and confirm that I am eligible to participate. I have been given sufficient time to consider the information and to seek advice if I chose to do so. I understand that I can contact the researcher(s) at any time if I have further questions. I understand that I am allowed to withdraw from the experiment at any time without giving a reason.</p>", name: 'Consent', options: consent_options, required:true}, 
+      
+    ],
+  };
+
+/////////////////////////
+///    INSTRUCTIONS   ///
+/////////////////////////
+
+ 
+// study description
+var study_intro = {
+type: "html-button-response",
+	stimulus: "<p> During this study you will be asked to complete three auditory perception tasks.</p><p> The first two auditory tasks are very short and will ask you to make basic loudness judgments about the sounds you hear." +
+               " These initial tasks will 1) allow you to adjust your computer volume to a comfortable listening level, and 2) confirm your headphones are working properly.</p><p>For the third task," +
+			   " you will be asked to listen to a short story that sometimes has added background noise. To test how well you can hear the talker, the story will pause randomly and you will be asked to report back " +
+			   "the last few words you heard (more information will be given before you start that task). Once the story is done, you will be asked to answer some comprehension questions and a set of demographic and hearing questions.</p>" +
+			   "<p> Once you are done with the entire experiment, make sure to record the subject code that appears in order to submit to the experimenter and receive payment.</p><p> Press <b>BEGIN</b> when you are ready to start. </p>",
+			  
+	choices: ['BEGIN'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+// volume adjustment instructions
+var volumeAdjust_intro = {
+	type: "html-button-response",
+	stimulus: "<p>This is the first auditory task. You are about to hear a brief audio file containing white noise. Once the noise begins to play, please adjust your volume so that the sound you hear is <b>comfortably loud</b>.</p><p> Keep in mind that you should not adjust the volume after this point." +
+			" Make sure to use headphones for this and any remaining tasks that play sound. </p><p>Press <b>Continue </b> when you are ready to hear the noise. </p>",
+			  
+	choices: ['Continue'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+// headphone-check task instructions
+var headphoneCheck_Intro = {
+	type: "html-button-response",
+	stimulus: "<p>You are about to begin the second auditory task. During each trial, you will hear three brief consecutive tones. Your task is to determine which tone is the quietest. </br>" +
+	"Click the button that corresponds to the tone you think was the quietest. There will be 6 trials in total which should take less than 2 minutes to complete. As a reminder, please do not adjust your volume and make sure to use headphones. </p><p> Press <b>Begin </b> when you are ready to start. </p>",
+			  
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+// story task: practice instructions
+var practice = {
+	type: "html-button-response",
+	stimulus: "<p>You are about to begin the third task which includes a short practice version of the test and then the full test. </p><p>During both the practice and test, you'll be asked to listen to a story. The story will pause randomly " +
+			  "and you will be asked to report back the last few words that you heard. The fixation cross on the screen will change colors as the story plays to show you exactly which words you should report back.</p>" +
+			  "When the fixation cross is <b>BLACK</b>, you do not have to do anything but listen to the story. The fixation cross will change to <b>YELLOW</b> to warn you to get ready to report back some upcoming words. " +
+			  "When the fixation cross turns <b>GREEN</b>, listen carefully and type the words you hear in the text box. You only need to report the words that were spoken when the fixation cross is <b>GREEN</b>. " +
+			  "If you are unsure what words were spoken you can guess. Once you are done with the story, you will be asked to answer some comprehension questions.</p>" + 
+			  "<p>To help you prepare for the test, the next part will be practice and your performance will not count. There will not be any added background noise during the practice. As a reminder, make sure to use headphones " +
+			  "during the task and to not adjust your volume. The practice should take 3-5 minutes to complete. </p><p>Press <b>BEGIN</b> when you are ready to start the practice. </p>",
+			  
+	choices: ['BEGIN'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+// story task: main instructions
+var m_task = {
+	type: "html-button-response",
+	stimulus: "<p>You are about to begin the full test. This story will last longer than the practice (~10-15 minutes) and will have fluctuating noise in the background. Please do your best to ignore " +
+			  "the background noise and focus on the story.</p><p> The task varies in difficulty: sometimes you may be able to hear the story very clearly but sometimes you may not hear any part of the story clearly. " +
+			  "We just ask that you listen carefully and do your best to report back all of the words spoken whenever the fixation cross is <b>GREEN</b>. When the story is done you will be asked to answer " +
+			  "comprehension questions and some questions about your demographics and hearing.</p><p>Press <b>BEGIN</b> when you are ready to start the test. </p>",
+			  
+	choices: ['BEGIN'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		
+};
+
+// comprehension Q instructions
+var comp_intro = {
+	type: 'html-button-response',
+	stimulus: function(){return "<p>During the next section you will be asked some comprehension questions. You don't need to wear headphones from here on out. Press <b>BEGIN</b> when you are ready to start. </p>";},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+
+// demographics instructions
+var demointro_genset = {
+	type: 'html-button-response',
+	stimulus: function(){return "<p>During the next section you will be asked some questions about your demographics and hearing. Press <b>BEGIN</b> when you are ready to start. </p> </p>";},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+   
+// story task: end task
+var m_task_fin = {
+	type: 'html-button-response',
+	stimulus: '<p>You have reached the end of the study. Thank you for your responses.</p>',
+	choices: ['GET CODE'],
+};
+
+// story task: code screen
+var final_screen = {
+	type: 'html-button-response',
+	stimulus: function(){return '<p>Please record the code below to submit to the experimenter.</p><p>Code: ' +  subject_id + '<p> IMPORTANT: Press the <b>End</b> button once you have recorded the code to end the session, then close the window.</p>';},
+	choices: ['End'],
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+
+// set full screen
+var fullscreen_trial = {
+    type: 'fullscreen',
+    fullscreen_mode: true
+};
+  
+var fullscreen_trial_exit = {
+    type: 'fullscreen',
+    fullscreen_mode: false
+};
+
+// pavlovia
+var pavlovia_init = {
+	type: "pavlovia",
+	command: "init"
+};
+
+var pavlovia_finish = {
+	type: "pavlovia",
+	command: "finish"
+};
+
+
+////////////////////////////////
+////    QUESTIONNAIRES      ////
+////////////////////////////////
+
+
+// technical issues 
+var button_soundcheck = {
+    type: 'html-button-response',
+    stimulus: "<p>Did you have any technical difficulties during the study, making you unable to hear any of the sounds?</p>",
+    choices: ['Yes', 'No'],
+    //prompt: "<p>What color is this word?</p>"
+    
+  };
+
+// headphone question set
+var button_headphones = {
+    type: 'html-button-response',
+    stimulus: "<p>Did you end up using headphones during the task sections with sound?</p>",
+    choices: ['Yes', 'No'],
+    //prompt: "<p>What color is this word?</p>"
+    
+};
+
+// gender question set
+var button_gender = {
+    type: 'html-button-response',
+    stimulus: "<p>What is your gender?</p>",
+    choices: ['Male', 'Female', 'Other'],
+    //prompt: "<p>What color is this word?</p>"
+    
+};
+
+// option to indicate non-binary
+var survey_gender_opt = {
+    type: 'survey-text',
+    questions: [
+      {prompt: 'Since you selected "Other" to the previous question about gender, please answer the following.</p><p>I identify as: ', columns: 100,  name: 'Gender: Identify'},
+      
+    ],
+};  
+  
+var genderif_node = {
+    timeline: [survey_gender_opt],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.button_pressed == 2){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+// music question set
+var button_music = {
+    type: 'html-button-response',
+    stimulus: "<p>Have you ever played a musical instrument? Vocalists and those who have sung in a group (e.g., choir) should also answer yes to this question.</p>",
+    choices: ['Yes', 'No'],
+    
+  };
+  
+var survey_music_opt = {
+    type: 'survey-text',
+    questions: [
+      {prompt: 'Which musical instrument have you played in the past? If more than one, separate each instrument with a comma.', columns: 100,  name: 'Instrument: Identify1'},
+	  {prompt: 'For how many years did you play the instrument/s identified in the previous question? If more than one, separate answers with a comma.', columns: 100,  name: 'Instrument: Identify2'},
+	  {prompt: 'Of the years spent playing a musical instrument, how many consisted of formal musical training (i.e., group or private lessons, excluding elementary classroom activities)? If you had formal lessons for more than one instrument, separate answers with a comma.', columns: 100,  name: 'Instrument: Identify3'}, 
+      {prompt: 'Do you currently play a musical instrument (vocalists should also answer yes)? If so, please specify which instruments you play currently, separating multiple instruments with a comma.', columns: 100,  name: 'Instrument: Identify4'},
+    ],
+    
+  };  
+  
+var musicif_node = {
+    timeline: [survey_music_opt],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.button_pressed == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+// general demographics 
+
+ var survey_general = {
+    type: 'survey-text',
+    questions: [
+      {prompt: 'How old are you?', columns: 3, name: 'Age'},
+	  {prompt: 'What is the first language you learned?', columns: 50, name: 'LanguageFirst'},
+	  {prompt: 'If English is not your first language, at what age did you learn English?', columns: 3, name: 'LanguageAge_alt'},
+	  {prompt: 'What other languages do you know? Please also rank your degree of fluency (1- very fluent, 6- Slightly). ', columns: 150, name: 'Language_other'},
+    ],
+    randomize_question_order: false
+  };
+ 
+ 
+ var handed_options = ["Right", "Left", "Both"];
+ var vision_options = ["Yes, I am wearing my glasses/contacts now.", "Yes, but I am not my wearing glasses/contacts.", "No, I don't wear glasses/contacts"];
+ var hearing_options = ["No", "Yes, left ear only.", "Yes, right ear only." , "Yes, both ears."];
+ var ringing_options = ["Sometimes", "Always", "Never"];
+ var ringing_options_opt = ["Both", "Left", "Right", "Does not apply to me."];
+ var yn_options = ["Yes", "No"];
+
+ var survey_choice_block = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "Which hand do you write with?", options: handed_options, name: 'Handed', required: true, horizontal: false}, 
+      {prompt: "Is your vision corrected?", options: vision_options, name: 'Vision',required: true, horizontal: false},
+	  {prompt: "Do you wear a hearing aid?", options: hearing_options,name: 'Hearing Aid', required: true, horizontal: false},
+	  {prompt: "Do you every get ringing in your ears?", options: ringing_options, name: 'Ringing_P1', required: true, horizontal: false},
+	  {prompt: "If you get ringing in your ears, which ear is affected?", options: ringing_options_opt, name: 'Ringing_P2', required: true, horizontal: false},
+      {prompt: "Do you frequently get ear infections?", options: yn_options, required: true, name: 'Ear Infections',horizontal: false},
+	  {prompt: "Have you ever been diagnosed with any kind of neurological disease?", options: yn_options, required: true, name: 'Neuro', horizontal: false},
+
+    ],
+  };
+
+// general hearing questions
+ var gen_scale = ["<p>0<p>(Not at all)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "<p>10<p>(perfectly)"];
+ var gen_scale_abbrev = ["<p>0<p>(Bad)", "1", "2", "3", "4", "5", "<p>6<p>(Good)"];
+
+  var likert_general_hearing = {
+      type: 'survey-likert',
+      questions: [
+        {prompt: "How would you rate your general hearing abilities.", name: 'General Hearing', labels: gen_scale_abbrev, required: true}, 
+		{prompt: "When you talk with someone at a place that strongly reverberates/echoes (e.g., in a church or train station), can you understand what the person says?", name: 'Sound Segregation1', labels: gen_scale,required: true}, 
+        {prompt: "When you are with a group (~5 people) in a lively restaurant, can you follow the group’s conversation?", name: 'Sound Segregation2', labels: gen_scale,required: true},
+		{prompt: "Based on the sound of a bus or truck, can you tell whether it is moving towards or away from you?", name: 'Sound Localization1', labels: gen_scale,required: true},
+		{prompt: "When you are in an unknown environment, can you tell from which direction a brief sound originates?", name: 'Sound Localization2', labels: gen_scale,required: true},
+		{prompt: "Are you able to ignore distracting sounds when you concentrate on a specific aspect of your acoustic surrounding?", name: 'Distractability', labels: gen_scale,required: true},
+		
+      ],
+	 
+      scale_width: 750
+  };
+
+//comprehension questions
+
+// prior exposure question 
+var exposure_Q = {
+    type: 'html-button-response',
+    stimulus: "<p>Have you heard this story before?</p>",
+    choices: ['Yes', 'No', 'Unsure'],
+    //prompt: "<p>What color is this word?</p>"
+};
+var practice_compQ = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "The speaker visited Portugal on her trip.", options: yn_options, required: true, name: 'Q1',horizontal: true},
+      {prompt: "She was good at navigating using a map.", options: yn_options, required: true, name: 'Q2',horizontal: true},
+      {prompt: "Her stolen bag was red.", options: yn_options, required: true, name: 'Q3',horizontal: true},
+      {prompt: "She only ate ham sandwiches during her trip.", options: yn_options, required: true, name: 'Q4', horizontal: true},
+     
+    ],
+	randomize_question_order: true,
+  };
+  
+
+var compQ1 = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "Aunt Maude is more strict compared to other adults.", options: yn_options, required: true, name: 'Q1',horizontal: true},
+      {prompt: "Aunt Maude organized the ghost walk tour.", options: yn_options, required: true, name: 'Q2',horizontal: true},
+      {prompt: "Witcombe does not get many tourists each year.", options: yn_options, required: true, name: 'Q3',horizontal: true},
+      {prompt: "Simon is living in the Greely house.", options: yn_options, required: true, name: 'Q4', horizontal: true},
+      {prompt: "Simon is investigating the spree of recent robberies.", options: yn_options, required: true, name: 'Q5', horizontal: true},
+      {prompt: "No one showed up for the ghost walk tour.", options: yn_options, required: true, name: 'Q6', horizontal: true},
+      {prompt: "Simon is one of the lifeguards at the community center pool.", options: yn_options, required: true, name: 'Q7', horizontal: true},
+      {prompt: "People believe the Greely house might be haunted.", options: yn_options, required: true, name: 'Q8', horizontal: true},
+    ],
+	randomize_question_order: true,
+  };
+  
+var compQ2 = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "Mai is afraid of the water.", options: yn_options, required: true, name: 'Q1',horizontal: true},
+      {prompt: "Patong beach is hit by a hurricane.", options: yn_options, required: true, name: 'Q2',horizontal: true},
+      {prompt: "Mai does not speak Thai.", options: yn_options, required: true, name: 'Q3',horizontal: true},
+      {prompt: "Mai and Luke hid inside their hotel.", options: yn_options, required: true, name: 'Q4', horizontal: true},
+      {prompt: "Mai gave Luke CPR when he wasn’t breathing.", options: yn_options, required: true, name: 'Q5', horizontal: true},
+      {prompt: "Luke is afraid of heights.", options: yn_options, required: true, name: 'Q6', horizontal: true},
+      {prompt: "Patong beach was badly damaged.", options: yn_options, required: true, name: 'Q7', horizontal: true},
+      {prompt: "Luke isn't sure what happened to his mom. ", options: yn_options, required: true, name: 'Q8', horizontal: true},
+    ],
+	randomize_question_order: true,
+  };
+
+
+
+var scale = ["Completely Disagree", "Disagree", "Somewhat Disagree", "Neutral", "Somewhat Agree", "Agree", "Completely Agree"];
+
+
+////////////////////////////////
+////  AUDITORY STIMULATION  ////
+////////////////////////////////	
+
+// volume adjustment trial
+var Volumeadj_noise = {
+	type: 'audio-button-response',
+	stimulus: 'sounds/pink_noise_rms_0398.mp3',
+    choices: ['REPLAY', 'CONTINUE'],
+    prompt: "<p>Press REPLAY if you need to hear the noise again. Press CONTINUE when you are ready to move forward. </p>",
+	//post_trial_gap: 250
+	// allow participants to end noise repeat by button press
+	on_finish: function(data){
+		if (data.button_pressed == 1){
+		 jsPsych.endCurrentTimeline();}
+	}
+};
+
+// headphone-check task trial
+var ToneDisc_unaltered = {
+	type: "audio-keyboard-response",
+	stimulus: 'sounds/tone_200Hz_rms0398_unaltered.mp3',
+  	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 500
+};
+
+// headphone-check task trial
+var ToneDisc_phaserev = {
+	type: "audio-keyboard-response",
+	stimulus:'sounds/tone_200Hz_rms0398_LR180phase.mp3',
+  	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 500
+};
+
+// headphone-check task trial
+var ToneDisc_ampReduce = {
+	type: "audio-keyboard-response",
+	stimulus:'sounds/tone_200Hz_initrms0398_-6db.mp3',
+  	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 500
+};
+
+// headphone-check task response trial
+var ToneDisc_resp = {
+	type: "html-button-response",
+	stimulus: "<p>Which tone was the quietest? </p>",
+	choices: ['First', 'Second', 'Third' ],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+
+
+// STORY TASK: SET PARAMETERS LOAD STIMULI 
+
+// get stimulus information
+var audio_folder  = "sounds/";
+var audiotype     = '.mp3';
+
+// possible conditions
+
+var conSel = [
+	// Unaltered: Story 1
+	{type:  "1", story: "1", Svers: "1", Qvers: "1", pcue: "0", cue: "1"},
+	{type:  "1", story: "1", Svers: "1", Qvers: "2", pcue: "2", cue: "3"},
+	{type:  "1", story: "1", Svers: "5", Qvers: "1", pcue: "0", cue: "1"},
+	{type:  "1", story: "1", Svers: "5", Qvers: "2", pcue: "2", cue: "3"},
+	{type:  "1", story: "1", Svers: "9", Qvers: "1", pcue: "0", cue: "1"},
+	{type:  "1", story: "1", Svers: "9", Qvers: "2", pcue: "2", cue: "3"},
+	// Scrambled: Story 1
+	<!-- {type:  "2", story: "1", Svers: "1", Qvers: "1", pcue: "4", cue: "5"}, -->
+	<!-- {type:  "2", story: "1", Svers: "1", Qvers: "2", pcue: "6", cue: "7"}, -->
+	<!-- {type:  "2", story: "1", Svers: "5", Qvers: "1", pcue: "4", cue: "5"}, -->
+	<!-- {type:  "2", story: "1", Svers: "5", Qvers: "2", pcue: "6", cue: "7"}, -->
+	<!-- {type:  "2", story: "1", Svers: "9", Qvers: "1", pcue: "4", cue: "5"}, -->
+	<!-- {type:  "2", story: "1", Svers: "9", Qvers: "2", pcue: "6", cue: "7"}, -->
+	// Unaltered: Story 2
+	{type:  "1", story: "2", Svers: "1", Qvers: "1", pcue: "8", cue: "9"},
+	{type:  "1", story: "2", Svers: "1", Qvers: "2", pcue: "10", cue: "11"},
+	{type:  "1", story: "2", Svers: "5", Qvers: "1", pcue: "8", cue: "9"},
+	{type:  "1", story: "2", Svers: "5", Qvers: "2", pcue: "10", cue: "11"},
+	{type:  "1", story: "2", Svers: "9", Qvers: "1", pcue: "8", cue: "9"},
+	{type:  "1", story: "2", Svers: "9", Qvers: "2", pcue: "10", cue: "11"},
+	// Scrambled: Story 2
+	<!-- {type:  "2", story: "2", Svers: "1", Qvers: "1", pcue: "12", cue: "13"}, -->
+	<!-- {type:  "2", story: "2", Svers: "1", Qvers: "2", pcue: "14", cue: "15"}, -->
+	<!-- {type:  "2", story: "2", Svers: "5", Qvers: "1", pcue: "12", cue: "13"}, -->
+	<!-- {type:  "2", story: "2", Svers: "5", Qvers: "2", pcue: "14", cue: "15"}, -->
+	<!-- {type:  "2", story: "2", Svers: "9", Qvers: "1", pcue: "12", cue: "13"}, -->
+	<!-- {type:  "2", story: "2", Svers: "9", Qvers: "2", pcue: "14", cue: "15"}, -->
+	
+];
+
+// select condition
+var cond = Math.floor(Math.random() * conSel.length); 
+
+
+//Practice cue options: [Precue, Cue]   
+var practiceCue = [
+[13960,	8383,	19081,	17315,	14161,	22307,	11229,	12539,	19636,	13418,	13065,	11962],
+[15960,	10383,	21081,	19315,	16161,	24307,	13229,	14539,	21636,	15418,	15065,	13962],
+];
+
+
+
+//Main task cue options: [Precue Q1, Cue Q1,Precue Q2, Cue Q2]....  
+var S1cue = [
+[6829,	8818,	17060,	18539,	10234,	14633,	16294,	11412,	18495,	14760,	5707,	21006,	9603,	11168,	22503,	9029,	12096,	14908,	14525,	16784,	12632,	11885,	11915,	22184,	13355,	12287,	13272,	15220,	9677,	11647,	15795,	13136,	15430,	8379,	16640,	15417,	11737,	20489,	11474,	13991],
+[8829,	10818,	19060,	20539,	12234,	16633,	18294,	13412,	20495,	16760,	7707,	23006,	11603,	13168,	24503,	11029,	14096,	16908,	16525,	18784,	14632,	13885,	13915,	24184,	15355,	14287,	15272,	17220,	11677,	13647,	17795,	15136,	17430,	10379,	18640,	17417,	13737,	22489,	13474,	15991],
+[11004,	5203,	20367,	16245,	10393,	17939,	14740,	13650,	19975,	12785,	7270,	23317,	7488,	11539,	9304,	16544,	17072,	11492,	13689,	5760,	23510,	70732,	15320,	6399,	15603,	13486,	10546,	16647,	15813,	9836,	17333,	10722,	16808,	6220,	21473,	3630,	15922,	15110,	16697,	13163],
+[13004,	7203,	22367,	18245,	12393,	19939,	16740,	15650,	21975,	14785,	9270,	25317,	9488,	13539,	11304,	18544,	19072,	13492,	15689,	7760,	25510,	72732,	17320,	8399,	17603,	15486,	12546,	18647,	17813,	11836,	19333,	12722,	18808,	8220,	23473,	5630,	17922,	17110,	18697,	15163],
+[8777,	12545,	12955,	17867,	10644,	10640,	11300,	15258,	20665,	11590,	13033,	15287,	16513,	9290,	20413,	10958,	14109,	15125,	15188,	12985,	9534,	18685,	11386,	10087,	19255,	11884,	11945,	17291,	8390,	20029,	10460,	12619,	14047,	15313,	10383,	15382,	13089,	18571,	12431,	11085],
+[10777,	14545,	14955,	19867,	12644,	12640,	13300,	17258,	22665,	13590,	15033,	17287,	18513,	11290,	22413,	12958,	16109,	17125,	17188,	14985,	11534,	20685,	13386,	12087,	21255,	13884,	13945,	19291,	10390,	22029,	12460,	14619,	16047,	17313,	12383,	17382,	15089,	20571,	14431,	13085],
+[8096,	13960,	6619,	16594,	11978,	13975,	11353,	11771,	17519,	15623,	12549,	9013,	17736,	11260,	14234,	16665,	13594,	12305,	72780,	7229,	14233,	13548,	18042,	20743,	12590,	11440,	10174,	17525,	12194,	17020,	8379,	17197,	14367,	13349,	15481,	10936,	9818,	10691,	16229,	14077],
+[10096,	15960,	8619,	18594,	13978,	15975,	13353,	13771,	19519,	17623,	14549,	11013,	19736,	13260,	16234,	18665,	15594,	14305,	74780,	9229,	16233,	15548,	20042,	22743,	14590,	13440,	12174,	19525,	14194,	19020,	10379,	19197,	16367,	15349,	17481,	12936,	11818,	12691,	18229,	16077],
+[9207,	10162,	16968,	8473,	19767,	8789,	15356,	20109,	7978,	15070,	14328,	8898,	16171,	20204,	15532,	6497,	21158,	7277,	15401,	10551,	17945,	11185,	9101,	18451,	13945,	8577,	19588,	8665,	11950,	13895,	12240,	15614,	11538,	15527,	10777,	14172,	16745,	11339,	9263,	15102],
+[11207,	12162,	18968,	10473,	21767,	10789,	17356,	22109,	9978,	17070,	16328,	10898,	18171,	22204,	17532,	8497,	23158,	9277,	17401,	12551,	19945,	13185,	11101,	20451,	15945,	10577,	21588,	10665,	13950,	15895,	14240,	17614,	13538,	17527,	12777,	16172,	18745,	13339,	11263,	17102],
+[8055,	14787,	7371,	15674,	17201,	7574,	13877,	15738,	17429,	11713,	15108,	9567,	17139,	8374,	14173,	12582,	10923,	15690,	11084,	15975,	14688,	15655,	9440,	10008,	15031,	19068,	9994,	18072,	10014,	17465,	13328,	5305,	16659,	18151,	11255,	17394,	9824,	14607,	11641,	12734],
+[10055,	16787,	9371,	17674,	19201,	9574,	15877,	17738,	19429,	13713,	17108,	11567,	19139,	10374,	16173,	14582,	12923,	17690,	13084,	17975,	16688,	17655,	11440,	12008,	17031,	21068,	11994,	20072,	12014,	19465,	15328,	7305,	18659,	20151,	13255,	19394,	11824,	16607,	13641,	14734],
+[7803,	16307,	14298,	9366,	15879,	10116,	12492,	17320,	18031,	9654,	15289,	12971,	7409,	16880,	11279,	18049,	12507,	15038,	23879,	15635,	18909,	17582,	14112,	21780,	13015,	19589,	14222,	19363,	15056,	15882,	18245,	15521,	16722,	18969,	11056,	23322,	13465,	20967,	19830,	11216],
+[9803,	18307,	16298,	11366,	17879,	12116,	14492,	19320,	20031,	11654,	17289,	14971,	9409,	18880,	13279,	20049,	14507,	17038,	25879,	17635,	20909,	19582,	16112,	23780,	15015,	21589,	16222,	21363,	17056,	17882,	20245,	17521,	18722,	20969,	13056,	25322,	15465,	22967,	21830,	13216],
+[10680,	13422,	14497,	8942,	12249,	10779,	13389,	13132,	16070,	8842,	16471,	15649,	6761,	15740,	14032,	16086,	13257,	15668,	14097,	11041,	14535,	7105,	15894,	14250,	12731,	16541,	16662,	13625,	12730,	6799,	20310,	13242,	12898,	15358,	9843,	11324,	15169,	14338,	16759,	11633],
+[12680,	15422,	16497,	10942,	14249,	12779,	15389,	15132,	18070,	10842,	18471,	17649,	8761,	17740,	16032,	18086,	15257,	17668,	16097,	13041,	16535,	9105,	17894,	16250,	14731,	18541,	18662,	15625,	14730,	8799,	22310,	15242,	14898,	17358,	11843,	13324,	17169,	16338,	18759,	13633],
+];
+
+
+// Select PreCue array based on story ID
+if (conSel[cond].story == 1)
+	{var compQ = compQ1}
+else if (conSel[cond].story == 2)
+	{var compQ = compQ2;}
+
+// get precue and cue onset times: Practice	
+var PracPCue = practiceCue[0];
+var PracCue  = practiceCue[1];
+
+// get precue and cue onset times: Main task	
+var PcueSel  =  S1cue[conSel[cond].pcue];
+var CueSel   =  S1cue[conSel[cond].cue];
+
+// get stimulus list: practice
+var PracticeSnip = [];
+for (var ii = 0; ii < PracCue.length +1; ii++) {
+	PracticeSnip[ii]  =  audio_folder + "story_practice_seg" + [ii+1] + "_16Bit_RMS0398" + audiotype;
+};
+// get stimulus list: intro
+var storySnip = [];
+for (var ii = 0; ii < CueSel.length +1; ii++) {
+	storySnip[ii]  =  audio_folder + 'Type' + conSel[cond].type + '_Story' + conSel[cond].story + "_V" + conSel[cond].Svers + "_Qver" + conSel[cond].Qvers + "_seg" + [ii+1]  + audiotype;
+};
+	
+// STORY TASK: TRIALS	
+		
+<!-- // trial to play sounds: practice -->
+var sp = 0;	// trial number: practice
+var Cued_story_prac = {
+	type: 'audio-keyboard-response',
+	prompt: //function(){		
+		//DEFINE TIMED FUNCTION FOR PRESENTING VISUAL / AUDITORY STIMULI 				
+		function myFunction() {
+		if (sp <PracCue.length){  
+			setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: black; font-size: 60px;">+</p>';},0);
+			setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: yellow; font-size: 60px;">+</p>';},PracPCue[sp]);
+			setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: green; font-size: 60px;">+</p>';},PracCue[sp]);
+		} else {setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: black; font-size: 60px;">+</p>';},0);}},
+	
+	stimulus: function(){ return PracticeSnip[sp];},
+	response_ends_trial: false,
+	trial_ends_after_audio: true,
+	};
+	
+
+<!-- // response trial: practice -->
+var response_trial_prac = {
+	type: "survey-text",
+	questions: [{prompt: "", rows: 2, columns: 40}],
+	post_trial_gap: 250,
+	preamble: "<p>To the best of your ability, please type back exactly what heard when the fixation cross was GREEN.</br>Do not worry about capitalization. Please try your best to spell as accurately as possible.</p>",
+	on_finish: function(data){
+		var answer = JSON.parse(jsPsych.data.get().last(1).values()[0].responses).Q0; //this is the extracted string they typed
+		var answerNew = answer.split('.').join(""); //remove period punctuation
+		answerNew = answerNew.split(',').join(""); //remove comma punctuation
+		answerNew = answerNew.split('!').join(""); //remove comma punctuation
+		answerNew = answerNew.toUpperCase(); //standardize capitalization
+		var answer_parsed = answerNew.split(" "); //split typed-in answer based on space
+			
+		jsPsych.data.addDataToLastTrial({
+			  designation: "PracticeStory:SIN",
+			  response: answer_parsed,
+			 });
+			 sp += 1;
+	},
+
+};		
+
+<!-- // option to skip response for last trial	 -->
+var if_node_response_prac = {
+timeline: [response_trial_prac],
+    conditional_function: function(){
+        if(sp < PracCue.length){
+            return true;
+		} else {
+            return false;
+        }
+    }
+};
+		
+// trial to play sounds: Main task
+var ss = 0;	// trial number
+var Cued_story = {
+	type: 'audio-keyboard-response',
+	prompt: //function(){		
+		//DEFINE TIMED FUNCTION FOR PRESENTING VISUAL / AUDITORY STIMULI 				
+		function myFunction() {
+		if (ss < CueSel.length){  
+			setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: black; font-size: 60px;">+</p>';},0);
+			setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: yellow; font-size: 60px;">+</p>';},PcueSel[ss]);
+			setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: green; font-size: 60px;">+</p>';},CueSel[ss]);
+		} else {setTimeout(function(){document.getElementById("jspsych-content").innerHTML = '<p style="color: black; font-size: 60px;">+</p>';},0);}},
+			
+	
+	stimulus: function(){ return storySnip[ss];},
+	response_ends_trial: false,
+	trial_ends_after_audio: true,
+	};
+
+// response trial
+var response_trial = {
+	type: "survey-text",
+	questions: [{prompt: "", rows: 2, columns: 40}],
+	post_trial_gap: 250,
+	preamble: "<p>To the best of your ability, please type back exactly what heard when the fixation cross was GREEN.</br>Do not worry about capitalization. Please try your best to spell as accurately as possible.</p>",
+	on_finish: function(data){
+		var answer = JSON.parse(jsPsych.data.get().last(1).values()[0].responses).Q0; //this is the extracted string they typed
+		var answerNew = answer.split('.').join(""); //remove period punctuation
+		answerNew = answerNew.split(',').join(""); //remove comma punctuation
+		answerNew = answerNew.split('!').join(""); //remove comma punctuation
+		answerNew = answerNew.toUpperCase(); //standardize capitalization
+		var answer_parsed = answerNew.split(" "); //split typed-in answer based on space
+			
+		jsPsych.data.addDataToLastTrial({
+			  designation: "Story:SIN",
+			  response: answer_parsed,
+			 });
+			 ss += 1;
+	},
+
+};
+
+var if_node_response = {
+timeline: [response_trial],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        if(ss < CueSel.length){
+            return true;
+			
+        } else {
+            return false;
+        }
+    }
+};
+
+////////////////////////////////
+////     BUILD TIMELINE     ////
+////////////////////////////////	
+var timeline = [];
+const makeRepeated = (arr, repeats) => [].concat(...Array.from({ length: repeats }, () => arr)); //constant to repeat elements in array
+
+// volume adjustment instructions
+var NoisePlay = {timeline: makeRepeated([Volumeadj_noise],20)
+};
+
+
+// headphone-check task trial order and timeline
+var ToneDisc_1 = {
+	timeline: [ToneDisc_unaltered, ToneDisc_phaserev,  ToneDisc_ampReduce, ToneDisc_resp]}
+	
+var ToneDisc_2 = {
+	timeline: [ToneDisc_unaltered, ToneDisc_ampReduce, ToneDisc_phaserev,  ToneDisc_resp]}
+	
+var ToneDisc_3 = {
+	timeline: [ToneDisc_phaserev,  ToneDisc_ampReduce, ToneDisc_unaltered, ToneDisc_resp]}
+	
+var ToneDisc_4 = {
+	timeline: [ToneDisc_phaserev,  ToneDisc_unaltered, ToneDisc_ampReduce, ToneDisc_resp]}
+	
+var ToneDisc_5 = {
+	timeline: [ToneDisc_ampReduce, ToneDisc_phaserev,  ToneDisc_unaltered, ToneDisc_resp]}
+	
+var ToneDisc_6 = {
+	timeline: [ToneDisc_ampReduce, ToneDisc_unaltered, ToneDisc_phaserev,  ToneDisc_resp]}
+	
+var myArray = [ToneDisc_1,ToneDisc_2,ToneDisc_3,ToneDisc_4,ToneDisc_5,ToneDisc_6];
+var shuffledArray = jsPsych.randomization.repeat(myArray,1);
+
+var headphoneCheck_task = {
+	timeline: timeline.concat(shuffledArray)
+};
+
+var Trial_orderPrac = {
+	timeline: makeRepeated([Cued_story_prac,if_node_response_prac],PracCue.length + 1),
+	randomize_order: false
+};
+
+var full_prac = {
+	timeline: [Trial_orderPrac,exposure_Q,practice_compQ]
+}
+
+var Trial_order = {
+	timeline: makeRepeated([Cued_story, if_node_response],CueSel.length + 1),
+	randomize_order: false
+};
+
+
+ var demo_timeline= {
+	timeline: [ comp_intro, compQ, exposure_Q, button_soundcheck, button_headphones, demointro_genset,button_gender,genderif_node,button_music, musicif_node,survey_general,survey_choice_block,likert_general_hearing]
+}
+
+
+//
+////////////////////////
+//// FINAL TIMELINE ////
+////////////////////////	
+
+var StoryTimeline = {
+	timeline: [   pavlovia_init, LOI_trial, consent_trial, study_intro, volumeAdjust_intro, NoisePlay,  fullscreen_trial, headphoneCheck_Intro, headphoneCheck_task, practice, full_prac, m_task, Trial_order, demo_timeline,pavlovia_finish, fullscreen_trial_exit, m_task_fin, final_screen]
+	
+};
+
+//
+<!--  -->
+<!-- Trial_orderPrac -->    
+timeline.push(StoryTimeline);
+ <!-- on_interaction_data_update: function(data) { -->
+    <!-- console.log(JSON.stringify(data)) -->
+  <!-- } -->
+
+     jsPsych.init({
+		show_progress_bar: false,
+		auto_update_progress_bar: false,
+        //use_webaudio: false,
+		timeline: timeline,
+		preload_audio: [PracticeSnip,storySnip],
+		// on_finish: function(){jsPsych.data.get().localSave('csv','mydata.csv');}
+		
+      });
+	  
+	      </script>
+  </body>
+</html>
