@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <title>Speech Perception Task</title>
+
+	<meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>   
+	
+    <script type="text/javascript" src="jspsych-6.1.0/jspsych.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-audio-keyboard-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-audio-slider-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-audio-button-response.js"></script>
+    <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-html-button-response.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-select.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-multi-choice.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-fullscreen.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-external-html.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-text.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-survey-likert.js"></script>
+    <script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-call-function.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/plugins/jspsych-html-slider-response.js"></script>
+	<script type="text/javascript" src="https://lib.pavlovia.org/jspsych-pavlovia-3.0.0.js"></script>
+	<script type="text/javascript" src="jspsych-6.1.0/js/serverComm.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="jspsych-6.1.0/css/jspsych.css">
+
+
+  </head>
+  <body>
+  <script>
+
+
+/////////////////////
+// DEFINE TIMELINE //
+/////////////////////
+
+var timeline = []; 
+
+/* init connection with pavlovia.org */
+var pavlovia_init = {
+	type: "pavlovia",
+	command: "init"
+};
+
+/* finish connection with pavlovia.org */
+ var pavlovia_finish = {
+	type: "pavlovia",
+	command: "finish"
+	};
+
+
+var subject_id = jsPsych.randomization.randomID(5);
+
+// Stim Conditions
+var CondArray = [1,2,3,4,5];
+
+// Select Condition 
+var condition_assignment = jsPsych.randomization.sampleWithoutReplacement(CondArray, 1); 
+
+// Select 2 Trials for Attention Check
+var attendarray = [5,6,7,8,9,10,11,12,13,14,15,16,17,18];
+var attendtrial = jsPsych.randomization.sampleWithoutReplacement(attendarray, 2); 
+
+var i = 0;
+
+
+jsPsych.data.addProperties({
+  subject: subject_id,
+  condition: condition_assignment
+ 
+});
+
+
+
+if (condition_assignment == 1){
+
+// Stimuli Set 1 --------------------------
+var audiopreload = [
+'eShapeStim/Set1/N1_Cond1_EnvShape1_TMR1_norm_01.wav',    'eShapeStim/Set1/N2_Cond2_EnvShape2_TMR1_norm_03.wav', 'eShapeStim/Set1/N3_Cond3_EnvShape3_TMR1_norm_2_21.wav', 'eShapeStim/Set1/N4_Cond4_EnvShape1_TMR2_norm_4_02.wav', 'eShapeStim/Set1/N5_Cond5_EnvShape2_TMR2_norm_1_23.wav', 'eShapeStim/Set1/N6_Cond6_EnvShape3_TMR2_norm_3_22.wav','eShapeStim/Set1/N7_Cond7_EnvShape1_TMR3_norm_4_25.wav', 'eShapeStim/Set1/N8_Cond8_EnvShape2_TMR3_norm_1_09.wav',
+'eShapeStim/Set1/N9_Cond9_EnvShape3_TMR3_norm_6_21.wav',   'eShapeStim/Set1/N10_Cond10_EnvShape1_TMR4_norm_1_17.wav', 'eShapeStim/Set1/N11_Cond11_EnvShape2_TMR4_norm_2_25.wav', 'eShapeStim/Set1/N12_Cond12_EnvShape3_TMR4_norm_5_08.wav',  'eShapeStim/Set1/N13_Cond13_EnvShape1_TMR5_norm_1_22.wav',  'eShapeStim/Set1/N14_Cond14_EnvShape2_TMR5_norm_4_05.wav',  'eShapeStim/Set1/N15_Cond15_EnvShape3_TMR5_norm_2_09.wav',  'eShapeStim/Set1/N16_Cond16_EnvShape1_TMR6_norm_49.wav', 
+'eShapeStim/Set1/N17_Cond17_EnvShape2_TMR6_norm_46.wav',   'eShapeStim/Set1/N18_Cond18_EnvShape3_TMR6_norm_1_03.wav', 'eShapeStim/Set1/N19_Cond19_EnvShape1_TMR7_norm_4_09.wav', 'eShapeStim/Set1/N20_Cond20_EnvShape2_TMR7_norm_27.wav',    'eShapeStim/Set1/N21_Cond21_EnvShape3_TMR7_norm_4_03.wav',  'eShapeStim/Set1/N22_Cond1_EnvShape1_TMR1_norm_6_23.wav',   'eShapeStim/Set1/N23_Cond2_EnvShape2_TMR1_norm_4_21.wav',   'eShapeStim/Set1/N24_Cond3_EnvShape3_TMR1_norm_6_17.wav', 
+'eShapeStim/Set1/N25_Cond4_EnvShape1_TMR2_norm_3_09.wav',  'eShapeStim/Set1/N26_Cond5_EnvShape2_TMR2_norm_4_23.wav',  'eShapeStim/Set1/N27_Cond6_EnvShape3_TMR2_norm_6_11.wav',  'eShapeStim/Set1/N28_Cond7_EnvShape1_TMR3_norm_5_01.wav',   'eShapeStim/Set1/N29_Cond8_EnvShape2_TMR3_norm_3_10.wav',   'eShapeStim/Set1/N30_Cond9_EnvShape3_TMR3_norm_51.wav',     'eShapeStim/Set1/N31_Cond10_EnvShape1_TMR4_norm_1_21.wav',  'eShapeStim/Set1/N32_Cond11_EnvShape2_TMR4_norm_17.wav', 
+'eShapeStim/Set1/N33_Cond12_EnvShape3_TMR4_norm_3_15.wav', 'eShapeStim/Set1/N34_Cond13_EnvShape1_TMR5_norm_5_25.wav', 'eShapeStim/Set1/N35_Cond14_EnvShape2_TMR5_norm_6_03.wav', 'eShapeStim/Set1/N36_Cond15_EnvShape3_TMR5_norm_5_21.wav',  'eShapeStim/Set1/N37_Cond16_EnvShape1_TMR6_norm_5_22.wav',  'eShapeStim/Set1/N38_Cond17_EnvShape2_TMR6_norm_4_15.wav',  'eShapeStim/Set1/N39_Cond18_EnvShape3_TMR6_norm_3_17.wav',  'eShapeStim/Set1/N40_Cond19_EnvShape1_TMR7_norm_5_23.wav', 
+'eShapeStim/Set1/N41_Cond20_EnvShape2_TMR7_norm_2_15.wav', 'eShapeStim/Set1/N42_Cond21_EnvShape3_TMR7_norm_6_08.wav', 'eShapeStim/Set1/N43_Cond1_EnvShape1_TMR1_norm_3_25.wav',  'eShapeStim/Set1/N44_Cond2_EnvShape2_TMR1_norm_6_09.wav',   'eShapeStim/Set1/N45_Cond3_EnvShape3_TMR1_norm_44.wav',     'eShapeStim/Set1/N46_Cond4_EnvShape1_TMR2_norm_5_17.wav',   'eShapeStim/Set1/N47_Cond5_EnvShape2_TMR2_norm_4_04.wav',   'eShapeStim/Set1/N48_Cond6_EnvShape3_TMR2_norm_1_15.wav', 
+'eShapeStim/Set1/N49_Cond7_EnvShape1_TMR3_norm_2_23.wav',  'eShapeStim/Set1/N50_Cond8_EnvShape2_TMR3_norm_3_11.wav',  'eShapeStim/Set1/N51_Cond9_EnvShape3_TMR3_norm_2_11.wav',  'eShapeStim/Set1/N52_Cond10_EnvShape1_TMR4_norm_2_20.wav',  'eShapeStim/Set1/N53_Cond11_EnvShape2_TMR4_norm_4_22.wav',  'eShapeStim/Set1/N54_Cond12_EnvShape3_TMR4_norm_5_03.wav',  'eShapeStim/Set1/N55_Cond13_EnvShape1_TMR5_norm_6_01.wav',  'eShapeStim/Set1/N56_Cond14_EnvShape2_TMR5_norm_4_17.wav', 
+'eShapeStim/Set1/N57_Cond15_EnvShape3_TMR5_norm_2_01.wav', 'eShapeStim/Set1/N58_Cond16_EnvShape1_TMR6_norm_2_17.wav', 'eShapeStim/Set1/N59_Cond17_EnvShape2_TMR6_norm_3_21.wav', 'eShapeStim/Set1/N60_Cond18_EnvShape3_TMR6_norm_3_23.wav',  'eShapeStim/Set1/N61_Cond19_EnvShape1_TMR7_norm_4_11.wav',  'eShapeStim/Set1/N62_Cond20_EnvShape2_TMR7_norm_5_11.wav',  'eShapeStim/Set1/N63_Cond21_EnvShape3_TMR7_norm_5_15.wav',  'eShapeStim/Set1/N64_Cond1_EnvShape1_TMR1_norm_32.wav', 
+'eShapeStim/Set1/N65_Cond2_EnvShape2_TMR1_norm_30.wav',    'eShapeStim/Set1/N66_Cond3_EnvShape3_TMR1_norm_3_01.wav',  'eShapeStim/Set1/N67_Cond4_EnvShape1_TMR2_norm_33.wav',    'eShapeStim/Set1/N68_Cond5_EnvShape2_TMR2_norm_5_20.wav',   'eShapeStim/Set1/N69_Cond6_EnvShape3_TMR2_norm_1_08.wav',   'eShapeStim/Set1/N70_Cond7_EnvShape1_TMR3_norm_04.wav',     'eShapeStim/Set1/N71_Cond8_EnvShape2_TMR3_norm_1_20.wav',   'eShapeStim/Set1/N72_Cond9_EnvShape3_TMR3_norm_2_22.wav', 
+'eShapeStim/Set1/N73_Cond10_EnvShape1_TMR4_norm_6_02.wav', 'eShapeStim/Set1/N74_Cond11_EnvShape2_TMR4_norm_4_01.wav', 'eShapeStim/Set1/N75_Cond12_EnvShape3_TMR4_norm_5_09.wav', 'eShapeStim/Set1/N76_Cond13_EnvShape1_TMR5_norm_4_20.wav',  'eShapeStim/Set1/N77_Cond14_EnvShape2_TMR5_norm_3_20.wav',  'eShapeStim/Set1/N78_Cond15_EnvShape3_TMR5_norm_3_02.wav',  'eShapeStim/Set1/N79_Cond16_EnvShape1_TMR6_norm_4_08.wav',  'eShapeStim/Set1/N80_Cond17_EnvShape2_TMR6_norm_12.wav', 
+'eShapeStim/Set1/N81_Cond18_EnvShape3_TMR6_norm_1_25.wav', 'eShapeStim/Set1/N82_Cond19_EnvShape1_TMR7_norm_34.wav',   'eShapeStim/Set1/N83_Cond20_EnvShape2_TMR7_norm_6_25.wav', 'eShapeStim/Set1/N84_Cond21_EnvShape3_TMR7_norm_60.wav', 'eShapeStim/pinknoise_rms05.wav', 'eShapeStim/tone_200Hz_rms05_unaltered.wav', 'eShapeStim/tone_200Hz_rms05_LR180phase.wav',
+'eShapeStim/tone_200Hz_initrms05_-6db.wav','eShapeStim/o_key_adj.wav','eShapeStim/w_key_adj.wav' ];
+
+
+var b1 = [
+{SRTstim: 'eShapeStim/Set1/N1_Cond1_EnvShape1_TMR1_norm_01.wav',      SRTcorrect: "the safety rules of the apartment were important to follow"},  {SRTstim: 'eShapeStim/Set1/N2_Cond2_EnvShape2_TMR1_norm_03.wav',      SRTcorrect: "the win helped our team advance to the playoffs"}, 			   {SRTstim: 'eShapeStim/Set1/N3_Cond3_EnvShape3_TMR1_norm_2_21.wav',    SRTcorrect: "the boy was able to conceal his cigarette"}, 		  		   {SRTstim: 'eShapeStim/Set1/N4_Cond4_EnvShape1_TMR2_norm_4_02.wav',    SRTcorrect: "he added milk and sugar to his coffee"}, 			 			{SRTstim: 'eShapeStim/Set1/N5_Cond5_EnvShape2_TMR2_norm_1_23.wav',    SRTcorrect: "his face showed that his team had lost the game"},
+{SRTstim: 'eShapeStim/Set1/N6_Cond6_EnvShape3_TMR2_norm_3_22.wav',    SRTcorrect: "he surprised his parents by his lack of concern "}, 			  {SRTstim: 'eShapeStim/Set1/N7_Cond7_EnvShape1_TMR3_norm_4_25.wav',    SRTcorrect: "she loved stories about fairies wizards and dragons  "},  	   	   {SRTstim: 'eShapeStim/Set1/N8_Cond8_EnvShape2_TMR3_norm_1_09.wav',    SRTcorrect: "they told the truth about the fight to the teacher"}, 	   {SRTstim: 'eShapeStim/Set1/N9_Cond9_EnvShape3_TMR3_norm_6_21.wav',    SRTcorrect: "the rice was cooked in a large saucepan  "}, 		 		 	{SRTstim: 'eShapeStim/Set1/N10_Cond10_EnvShape1_TMR4_norm_1_17.wav',  SRTcorrect: "the gambler lost most of his money at the races"},
+{SRTstim: 'eShapeStim/Set1/N11_Cond11_EnvShape2_TMR4_norm_2_25.wav',  SRTcorrect: "there was lettuce and cucumber in the salad  "},				  {SRTstim: 'eShapeStim/Set1/N12_Cond12_EnvShape3_TMR4_norm_5_08.wav',  SRTcorrect: "the juice was served in a large jug  "}, 					       {SRTstim: 'eShapeStim/Set1/N13_Cond13_EnvShape1_TMR5_norm_1_22.wav',  SRTcorrect: "he left school before he had done his exams "}, 	  		   {SRTstim: 'eShapeStim/Set1/N14_Cond14_EnvShape2_TMR5_norm_4_05.wav',  SRTcorrect: "the housewife was able to carry the bags of food"},  		 	{SRTstim: 'eShapeStim/Set1/N15_Cond15_EnvShape3_TMR5_norm_2_09.wav',  SRTcorrect: "gin was not a drink that her old man liked"},
+{SRTstim: 'eShapeStim/Set1/N16_Cond16_EnvShape1_TMR6_norm_49.wav',    SRTcorrect: "taking a hostage allowed the robbers to make their escape"},   {SRTstim: 'eShapeStim/Set1/N17_Cond17_EnvShape2_TMR6_norm_46.wav',    SRTcorrect: "the platform started creaking alarmingly during the speech  "},   {SRTstim: 'eShapeStim/Set1/N18_Cond18_EnvShape3_TMR6_norm_1_03.wav',  SRTcorrect: "the new owners of the house painted it pink "}, 	  		   {SRTstim: 'eShapeStim/Set1/N19_Cond19_EnvShape1_TMR7_norm_4_09.wav',  SRTcorrect: "the goat was as greedy as the family had expected"}, 		    {SRTstim: 'eShapeStim/Set1/N20_Cond20_EnvShape2_TMR7_norm_27.wav',    SRTcorrect: "she claimed that the bran tasted much nicer  "},
+{SRTstim: 'eShapeStim/Set1/N21_Cond21_EnvShape3_TMR7_norm_4_03.wav',  SRTcorrect: "the cake and the biscuits had the same flavor "},];
+
+var b2 = [
+{SRTstim: 'eShapeStim/Set1/N22_Cond1_EnvShape1_TMR1_norm_6_23.wav',   SRTcorrect: "the artifacts found at the dig were made of bronze"},          {SRTstim: 'eShapeStim/Set1/N23_Cond2_EnvShape2_TMR1_norm_4_21.wav',   SRTcorrect: "the couple had been together for three years  "}, 			   	   {SRTstim: 'eShapeStim/Set1/N24_Cond3_EnvShape3_TMR1_norm_6_17.wav',   SRTcorrect: "an angry crowd was turned back at the government building"}, {SRTstim: 'eShapeStim/Set1/N25_Cond4_EnvShape1_TMR2_norm_3_09.wav',   SRTcorrect: "there were tools made from gold found at the site"}, 		    {SRTstim: 'eShapeStim/Set1/N26_Cond5_EnvShape2_TMR2_norm_4_23.wav',   SRTcorrect: "the soup was kept in a carton in the fridge"},
+{SRTstim: 'eShapeStim/Set1/N27_Cond6_EnvShape3_TMR2_norm_6_11.wav',   SRTcorrect: "his girlfriend had chosen the picture on the wall "},		  {SRTstim: 'eShapeStim/Set1/N28_Cond7_EnvShape1_TMR3_norm_5_01.wav',   SRTcorrect: "their holiday was quite short and would end soon "},			   {SRTstim: 'eShapeStim/Set1/N29_Cond8_EnvShape2_TMR3_norm_3_10.wav',   SRTcorrect: "the recipe for the cake was easy to follow "},			   {SRTstim: 'eShapeStim/Set1/N30_Cond9_EnvShape3_TMR3_norm_51.wav',     SRTcorrect: "the pension payments were worth less and less every month"},  {SRTstim: 'eShapeStim/Set1/N31_Cond10_EnvShape1_TMR4_norm_1_21.wav',  SRTcorrect: "the building had a nest in its roof  "},
+{SRTstim: 'eShapeStim/Set1/N32_Cond11_EnvShape2_TMR4_norm_17.wav',    SRTcorrect: "the drought was eased by the arrival of the monsoon"}, 	      {SRTstim: 'eShapeStim/Set1/N33_Cond12_EnvShape3_TMR4_norm_3_15.wav',  SRTcorrect: "the wife of the priest helped out the elderly "},			       {SRTstim: 'eShapeStim/Set1/N34_Cond13_EnvShape1_TMR5_norm_5_25.wav',  SRTcorrect: "the bruise on his knee was quite painful  "}, 			   {SRTstim: 'eShapeStim/Set1/N35_Cond14_EnvShape2_TMR5_norm_6_03.wav',  SRTcorrect: "the child was sad when her toys were damaged "}, 			    {SRTstim: 'eShapeStim/Set1/N36_Cond15_EnvShape3_TMR5_norm_5_21.wav',  SRTcorrect: "there was a really beautiful sunset that evening  "},
+{SRTstim: 'eShapeStim/Set1/N37_Cond16_EnvShape1_TMR6_norm_5_22.wav',  SRTcorrect: "it is common for people to avoid the dentist "}, 		      {SRTstim: 'eShapeStim/Set1/N38_Cond17_EnvShape2_TMR6_norm_4_15.wav',  SRTcorrect: "his briefcase was brown and was made of leather "}, 			   {SRTstim: 'eShapeStim/Set1/N39_Cond18_EnvShape3_TMR6_norm_3_17.wav',  SRTcorrect: "the fireman climbed down into the bottom of the tunnel"},    {SRTstim: 'eShapeStim/Set1/N40_Cond19_EnvShape1_TMR7_norm_5_23.wav',  SRTcorrect: "the view from the top of the ridge was amazing"}, 			{SRTstim: 'eShapeStim/Set1/N41_Cond20_EnvShape2_TMR7_norm_2_15.wav',  SRTcorrect: "the wax from the candle fell on the book "},
+{SRTstim: 'eShapeStim/Set1/N42_Cond21_EnvShape3_TMR7_norm_6_08.wav',  SRTcorrect: "her daughter was too young for the disco  "},];
+var b3 = [
+{SRTstim: 'eShapeStim/Set1/N43_Cond1_EnvShape1_TMR1_norm_3_25.wav',   SRTcorrect: "the fog in the valley was quite thick  "}, 					  {SRTstim: 'eShapeStim/Set1/N44_Cond2_EnvShape2_TMR1_norm_6_09.wav',   SRTcorrect: "the beef was rare just as the customer had requested"}, 		   {SRTstim: 'eShapeStim/Set1/N45_Cond3_EnvShape3_TMR1_norm_44.wav',     SRTcorrect: "airplanes are currently the best way to travel  "}, 		   {SRTstim: 'eShapeStim/Set1/N46_Cond4_EnvShape1_TMR2_norm_5_17.wav',   SRTcorrect: "a spoon was used to stir the cup of tea"},					{SRTstim: 'eShapeStim/Set1/N47_Cond5_EnvShape2_TMR2_norm_4_04.wav',   SRTcorrect: "she laughed at the joke about the dog  "},
+{SRTstim: 'eShapeStim/Set1/N48_Cond6_EnvShape3_TMR2_norm_1_15.wav',   SRTcorrect: "the drink was too hot for the baby  "},						  {SRTstim: 'eShapeStim/Set1/N49_Cond7_EnvShape1_TMR3_norm_2_23.wav',   SRTcorrect: "the sketch showed that the road would pass the school"},          {SRTstim: 'eShapeStim/Set1/N50_Cond8_EnvShape2_TMR3_norm_3_11.wav',   SRTcorrect: "she was sitting on the sofa in her bedroom "}, 			   {SRTstim: 'eShapeStim/Set1/N51_Cond9_EnvShape3_TMR3_norm_2_11.wav',   SRTcorrect: "snow is unusual in the summer in most countries "}, 		    {SRTstim: 'eShapeStim/Set1/N52_Cond10_EnvShape1_TMR4_norm_2_20.wav',  SRTcorrect: "the noise was very loud and difficult to ignore "},
+{SRTstim: 'eShapeStim/Set1/N53_Cond11_EnvShape2_TMR4_norm_4_22.wav',  SRTcorrect: "the child left all of his lunch at home "},					  {SRTstim: 'eShapeStim/Set1/N54_Cond12_EnvShape3_TMR4_norm_5_03.wav',  SRTcorrect: "a game of chess can last for four hours "}, 					   {SRTstim: 'eShapeStim/Set1/N55_Cond13_EnvShape1_TMR5_norm_6_01.wav',  SRTcorrect: "the elephant was huge just as the circus had wanted"}, 	   {SRTstim: 'eShapeStim/Set1/N56_Cond14_EnvShape2_TMR5_norm_4_17.wav',  SRTcorrect: "the camel was kept in a cage at the zoo"}, 					{SRTstim: 'eShapeStim/Set1/N57_Cond15_EnvShape3_TMR5_norm_2_01.wav',  SRTcorrect: "there was beer and cider on the kitchen shelf "},
+{SRTstim: 'eShapeStim/Set1/N58_Cond16_EnvShape1_TMR6_norm_2_17.wav',  SRTcorrect: "he broke his leg when he fell off the horse"}, 				  {SRTstim: 'eShapeStim/Set1/N59_Cond17_EnvShape2_TMR6_norm_3_21.wav',  SRTcorrect: "the pattern on the rug was quite complex  "}, 				       {SRTstim: 'eShapeStim/Set1/N60_Cond18_EnvShape3_TMR6_norm_3_23.wav',  SRTcorrect: "the burglar came up over the wall of the palace"}, 		   {SRTstim: 'eShapeStim/Set1/N61_Cond19_EnvShape1_TMR7_norm_4_11.wav',  SRTcorrect: "her children saw a snake at the picnic  "}, 					{SRTstim: 'eShapeStim/Set1/N62_Cond20_EnvShape2_TMR7_norm_5_11.wav',  SRTcorrect: "the blunt knife was rather awkward to use  "},
+{SRTstim: 'eShapeStim/Set1/N63_Cond21_EnvShape3_TMR7_norm_5_15.wav',  SRTcorrect: "the neighbors made a lot of noise last night "},];
+
+var b4 = [
+{SRTstim: 'eShapeStim/Set1/N64_Cond1_EnvShape1_TMR1_norm_32.wav',     SRTcorrect: "the bait should be suitable for catching rats  "}, 			  {SRTstim: 'eShapeStim/Set1/N65_Cond2_EnvShape2_TMR1_norm_30.wav',     SRTcorrect: "the croquet game could begin after the lawn was mowed"}, 		   {SRTstim: 'eShapeStim/Set1/N66_Cond3_EnvShape3_TMR1_norm_3_01.wav',   SRTcorrect: "the luggage should be kept in a large warehouse "},		   {SRTstim: 'eShapeStim/Set1/N67_Cond4_EnvShape1_TMR2_norm_33.wav',     SRTcorrect: "the pain tempted him to abort the climb  "}, 					{SRTstim: 'eShapeStim/Set1/N68_Cond5_EnvShape2_TMR2_norm_5_20.wav',   SRTcorrect: "there were bracelets and necklaces in her jewelry box "},
+{SRTstim: 'eShapeStim/Set1/N69_Cond6_EnvShape3_TMR2_norm_1_08.wav',   SRTcorrect: "the shop was closed when she arrived there  "}, 				  {SRTstim: 'eShapeStim/Set1/N70_Cond7_EnvShape1_TMR3_norm_04.wav',     SRTcorrect: "they were concerned when the kid laughed at violent movies"},     {SRTstim: 'eShapeStim/Set1/N71_Cond8_EnvShape2_TMR3_norm_1_20.wav',   SRTcorrect: "the carpet and the curtains were the same colour "},         {SRTstim: 'eShapeStim/Set1/N72_Cond9_EnvShape3_TMR3_norm_2_22.wav',   SRTcorrect: "he reminded his parents about the game of football "},		{SRTstim: 'eShapeStim/Set1/N73_Cond10_EnvShape1_TMR4_norm_6_02.wav',  SRTcorrect: "the bride smiled at the photo of her wedding "},
+{SRTstim: 'eShapeStim/Set1/N74_Cond11_EnvShape2_TMR4_norm_4_01.wav',  SRTcorrect: "the computer was sent back after the first month "}, 		  {SRTstim: 'eShapeStim/Set1/N75_Cond12_EnvShape3_TMR4_norm_5_09.wav',  SRTcorrect: "he guessed the answer to the question in the exam"},              {SRTstim: 'eShapeStim/Set1/N76_Cond13_EnvShape1_TMR5_norm_4_20.wav',  SRTcorrect: "he was sitting at his desk in his office "},				   {SRTstim: 'eShapeStim/Set1/N77_Cond14_EnvShape2_TMR5_norm_3_20.wav',  SRTcorrect: "he always read a book before going to bed "}, 				{SRTstim: 'eShapeStim/Set1/N78_Cond15_EnvShape3_TMR5_norm_3_02.wav',  SRTcorrect: "the boy was able to climb the mountain  "}, 
+{SRTstim: 'eShapeStim/Set1/N79_Cond16_EnvShape1_TMR6_norm_4_08.wav',  SRTcorrect: "she cleaned the wardrobe after she emptied it  "},			  {SRTstim: 'eShapeStim/Set1/N80_Cond17_EnvShape2_TMR6_norm_12.wav',    SRTcorrect: "the shrubs are watered regularly by the gardener  "},             {SRTstim: 'eShapeStim/Set1/N81_Cond18_EnvShape3_TMR6_norm_1_25.wav',  SRTcorrect: "the traffic on the highway was very heavy  "}, 			   {SRTstim: 'eShapeStim/Set1/N82_Cond19_EnvShape1_TMR7_norm_34.wav',    SRTcorrect: "the fumes from the factory are unbearable in the village"},   {SRTstim: 'eShapeStim/Set1/N83_Cond20_EnvShape2_TMR7_norm_6_25.wav',  SRTcorrect: "he ironed his shirt before he wore it  "},
+{SRTstim: 'eShapeStim/Set1/N84_Cond21_EnvShape3_TMR7_norm_60.wav',    SRTcorrect: "the flag was raised to the top of the flagpole"},
+];
+}
+
+else if (condition_assignment == 2){
+
+// Stimuli Set 2 --------------------------
+var audiopreload = [
+'eShapeStim/Set2/N1_Cond2_EnvShape2_TMR1_norm_01.wav',     'eShapeStim/Set2/N2_Cond3_EnvShape3_TMR1_norm_03.wav',     'eShapeStim/Set2/N3_Cond4_EnvShape1_TMR2_norm_2_21.wav',   'eShapeStim/Set2/N4_Cond5_EnvShape2_TMR2_norm_4_02.wav',    'eShapeStim/Set2/N5_Cond6_EnvShape3_TMR2_norm_1_23.wav',   'eShapeStim/Set2/N6_Cond7_EnvShape1_TMR3_norm_3_22.wav',   'eShapeStim/Set2/N7_Cond8_EnvShape2_TMR3_norm_4_25.wav',   'eShapeStim/Set2/N8_Cond9_EnvShape3_TMR3_norm_1_09.wav',
+'eShapeStim/Set2/N9_Cond10_EnvShape1_TMR4_norm_6_21.wav',  'eShapeStim/Set2/N10_Cond11_EnvShape2_TMR4_norm_1_17.wav', 'eShapeStim/Set2/N11_Cond12_EnvShape3_TMR4_norm_2_25.wav', 'eShapeStim/Set2/N12_Cond13_EnvShape1_TMR5_norm_5_08.wav',  'eShapeStim/Set2/N13_Cond14_EnvShape2_TMR5_norm_1_22.wav', 'eShapeStim/Set2/N14_Cond15_EnvShape3_TMR5_norm_4_05.wav', 'eShapeStim/Set2/N15_Cond16_EnvShape1_TMR6_norm_2_09.wav', 'eShapeStim/Set2/N16_Cond17_EnvShape2_TMR6_norm_49.wav',
+'eShapeStim/Set2/N17_Cond18_EnvShape3_TMR6_norm_46.wav',   'eShapeStim/Set2/N18_Cond19_EnvShape1_TMR7_norm_1_03.wav', 'eShapeStim/Set2/N19_Cond20_EnvShape2_TMR7_norm_4_09.wav', 'eShapeStim/Set2/N20_Cond21_EnvShape3_TMR7_norm_27.wav',    'eShapeStim/Set2/N21_Cond1_EnvShape1_TMR1_norm_4_03.wav',  'eShapeStim/Set2/N22_Cond2_EnvShape2_TMR1_norm_6_23.wav',  'eShapeStim/Set2/N23_Cond3_EnvShape3_TMR1_norm_4_21.wav',  'eShapeStim/Set2/N24_Cond4_EnvShape1_TMR2_norm_6_17.wav',
+'eShapeStim/Set2/N25_Cond5_EnvShape2_TMR2_norm_3_09.wav',  'eShapeStim/Set2/N26_Cond6_EnvShape3_TMR2_norm_4_23.wav',  'eShapeStim/Set2/N27_Cond7_EnvShape1_TMR3_norm_6_11.wav',  'eShapeStim/Set2/N28_Cond8_EnvShape2_TMR3_norm_5_01.wav',   'eShapeStim/Set2/N29_Cond9_EnvShape3_TMR3_norm_3_10.wav',  'eShapeStim/Set2/N30_Cond10_EnvShape1_TMR4_norm_51.wav',   'eShapeStim/Set2/N31_Cond11_EnvShape2_TMR4_norm_1_21.wav', 'eShapeStim/Set2/N32_Cond12_EnvShape3_TMR4_norm_17.wav',
+'eShapeStim/Set2/N33_Cond13_EnvShape1_TMR5_norm_3_15.wav', 'eShapeStim/Set2/N34_Cond14_EnvShape2_TMR5_norm_5_25.wav', 'eShapeStim/Set2/N35_Cond15_EnvShape3_TMR5_norm_6_03.wav', 'eShapeStim/Set2/N36_Cond16_EnvShape1_TMR6_norm_5_21.wav',  'eShapeStim/Set2/N37_Cond17_EnvShape2_TMR6_norm_5_22.wav', 'eShapeStim/Set2/N38_Cond18_EnvShape3_TMR6_norm_4_15.wav', 'eShapeStim/Set2/N39_Cond19_EnvShape1_TMR7_norm_3_17.wav', 'eShapeStim/Set2/N40_Cond20_EnvShape2_TMR7_norm_5_23.wav',
+'eShapeStim/Set2/N41_Cond21_EnvShape3_TMR7_norm_2_15.wav', 'eShapeStim/Set2/N42_Cond1_EnvShape1_TMR1_norm_6_08.wav',  'eShapeStim/Set2/N43_Cond2_EnvShape2_TMR1_norm_3_25.wav',  'eShapeStim/Set2/N44_Cond3_EnvShape3_TMR1_norm_6_09.wav',   'eShapeStim/Set2/N45_Cond4_EnvShape1_TMR2_norm_44.wav',    'eShapeStim/Set2/N46_Cond5_EnvShape2_TMR2_norm_5_17.wav',  'eShapeStim/Set2/N47_Cond6_EnvShape3_TMR2_norm_4_04.wav',  'eShapeStim/Set2/N48_Cond7_EnvShape1_TMR3_norm_1_15.wav',
+'eShapeStim/Set2/N49_Cond8_EnvShape2_TMR3_norm_2_23.wav',  'eShapeStim/Set2/N50_Cond9_EnvShape3_TMR3_norm_3_11.wav',  'eShapeStim/Set2/N51_Cond10_EnvShape1_TMR4_norm_2_11.wav', 'eShapeStim/Set2/N52_Cond11_EnvShape2_TMR4_norm_2_20.wav',  'eShapeStim/Set2/N53_Cond12_EnvShape3_TMR4_norm_4_22.wav', 'eShapeStim/Set2/N54_Cond13_EnvShape1_TMR5_norm_5_03.wav', 'eShapeStim/Set2/N55_Cond14_EnvShape2_TMR5_norm_6_01.wav', 'eShapeStim/Set2/N56_Cond15_EnvShape3_TMR5_norm_4_17.wav',
+'eShapeStim/Set2/N57_Cond16_EnvShape1_TMR6_norm_2_01.wav', 'eShapeStim/Set2/N58_Cond17_EnvShape2_TMR6_norm_2_17.wav', 'eShapeStim/Set2/N59_Cond18_EnvShape3_TMR6_norm_3_21.wav', 'eShapeStim/Set2/N60_Cond19_EnvShape1_TMR7_norm_3_23.wav',  'eShapeStim/Set2/N61_Cond20_EnvShape2_TMR7_norm_4_11.wav', 'eShapeStim/Set2/N62_Cond21_EnvShape3_TMR7_norm_5_11.wav', 'eShapeStim/Set2/N63_Cond1_EnvShape1_TMR1_norm_5_15.wav',  'eShapeStim/Set2/N64_Cond2_EnvShape2_TMR1_norm_32.wav',
+'eShapeStim/Set2/N65_Cond3_EnvShape3_TMR1_norm_30.wav',    'eShapeStim/Set2/N66_Cond4_EnvShape1_TMR2_norm_3_01.wav',  'eShapeStim/Set2/N67_Cond5_EnvShape2_TMR2_norm_33.wav',    'eShapeStim/Set2/N68_Cond6_EnvShape3_TMR2_norm_5_20.wav',   'eShapeStim/Set2/N69_Cond7_EnvShape1_TMR3_norm_1_08.wav',  'eShapeStim/Set2/N70_Cond8_EnvShape2_TMR3_norm_04.wav',    'eShapeStim/Set2/N71_Cond9_EnvShape3_TMR3_norm_1_20.wav',  'eShapeStim/Set2/N72_Cond10_EnvShape1_TMR4_norm_2_22.wav',
+'eShapeStim/Set2/N73_Cond11_EnvShape2_TMR4_norm_6_02.wav', 'eShapeStim/Set2/N74_Cond12_EnvShape3_TMR4_norm_4_01.wav', 'eShapeStim/Set2/N75_Cond13_EnvShape1_TMR5_norm_5_09.wav', 'eShapeStim/Set2/N76_Cond14_EnvShape2_TMR5_norm_4_20.wav',  'eShapeStim/Set2/N77_Cond15_EnvShape3_TMR5_norm_3_20.wav', 'eShapeStim/Set2/N78_Cond16_EnvShape1_TMR6_norm_3_02.wav', 'eShapeStim/Set2/N79_Cond17_EnvShape2_TMR6_norm_4_08.wav', 'eShapeStim/Set2/N80_Cond18_EnvShape3_TMR6_norm_12.wav',
+'eShapeStim/Set2/N81_Cond19_EnvShape1_TMR7_norm_1_25.wav', 'eShapeStim/Set2/N82_Cond20_EnvShape2_TMR7_norm_34.wav',   'eShapeStim/Set2/N83_Cond21_EnvShape3_TMR7_norm_6_25.wav', 'eShapeStim/Set2/N84_Cond1_EnvShape1_TMR1_norm_60.wav', 'eShapeStim/pinknoise_rms05.wav', 'eShapeStim/tone_200Hz_rms05_unaltered.wav', 'eShapeStim/tone_200Hz_rms05_LR180phase.wav','eShapeStim/tone_200Hz_initrms05_-6db.wav','eShapeStim/o_key_adj.wav','eShapeStim/w_key_adj.wav' ];
+
+
+var b1 = [
+{SRTstim: 'eShapeStim/Set2/N1_Cond2_EnvShape2_TMR1_norm_01.wav',       SRTcorrect: "the safety rules of the apartment were important to follow"},
+{SRTstim: 'eShapeStim/Set2/N2_Cond3_EnvShape3_TMR1_norm_03.wav',       SRTcorrect: "the win helped our team advance to the playoffs "},
+{SRTstim: 'eShapeStim/Set2/N3_Cond4_EnvShape1_TMR2_norm_2_21.wav',       SRTcorrect: "the boy was able to conceal his cigarette  "},
+{SRTstim: 'eShapeStim/Set2/N4_Cond5_EnvShape2_TMR2_norm_4_02.wav',       SRTcorrect: "he added milk and sugar to his coffee  "},
+{SRTstim: 'eShapeStim/Set2/N5_Cond6_EnvShape3_TMR2_norm_1_23.wav',       SRTcorrect: "his face showed that his team had lost the game"},
+{SRTstim: 'eShapeStim/Set2/N6_Cond7_EnvShape1_TMR3_norm_3_22.wav',       SRTcorrect: "he surprised his parents by his lack of concern "},
+{SRTstim: 'eShapeStim/Set2/N7_Cond8_EnvShape2_TMR3_norm_4_25.wav',       SRTcorrect: "she loved stories about fairies wizards and dragons  "},
+{SRTstim: 'eShapeStim/Set2/N8_Cond9_EnvShape3_TMR3_norm_1_09.wav',       SRTcorrect: "they told the truth about the fight to the teacher"},
+{SRTstim: 'eShapeStim/Set2/N9_Cond10_EnvShape1_TMR4_norm_6_21.wav',       SRTcorrect: "the rice was cooked in a large saucepan  "},
+{SRTstim: 'eShapeStim/Set2/N10_Cond11_EnvShape2_TMR4_norm_1_17.wav',       SRTcorrect: "the gambler lost most of his money at the races"},
+{SRTstim: 'eShapeStim/Set2/N11_Cond12_EnvShape3_TMR4_norm_2_25.wav',       SRTcorrect: "there was lettuce and cucumber in the salad  "},
+{SRTstim: 'eShapeStim/Set2/N12_Cond13_EnvShape1_TMR5_norm_5_08.wav',       SRTcorrect: "the juice was served in a large jug  "},
+{SRTstim: 'eShapeStim/Set2/N13_Cond14_EnvShape2_TMR5_norm_1_22.wav',       SRTcorrect: "he left school before he had done his exams "},
+{SRTstim: 'eShapeStim/Set2/N14_Cond15_EnvShape3_TMR5_norm_4_05.wav',       SRTcorrect: "the housewife was able to carry the bags of food"},
+{SRTstim: 'eShapeStim/Set2/N15_Cond16_EnvShape1_TMR6_norm_2_09.wav',       SRTcorrect: "gin was not a drink that her old man liked"},
+{SRTstim: 'eShapeStim/Set2/N16_Cond17_EnvShape2_TMR6_norm_49.wav',       SRTcorrect: "taking a hostage allowed the robbers to make their escape"},
+{SRTstim: 'eShapeStim/Set2/N17_Cond18_EnvShape3_TMR6_norm_46.wav',       SRTcorrect: "the platform started creaking alarmingly during the speech  "},
+{SRTstim: 'eShapeStim/Set2/N18_Cond19_EnvShape1_TMR7_norm_1_03.wav',       SRTcorrect: "the new owners of the house painted it pink "},
+{SRTstim: 'eShapeStim/Set2/N19_Cond20_EnvShape2_TMR7_norm_4_09.wav',       SRTcorrect: "the goat was as greedy as the family had expected"},
+{SRTstim: 'eShapeStim/Set2/N20_Cond21_EnvShape3_TMR7_norm_27.wav',       SRTcorrect: "she claimed that the bran tasted much nicer  "},
+{SRTstim: 'eShapeStim/Set2/N21_Cond1_EnvShape1_TMR1_norm_4_03.wav',       SRTcorrect: "the cake and the biscuits had the same flavour "},
+];
+
+var b2 = [
+{SRTstim: 'eShapeStim/Set2/N22_Cond2_EnvShape2_TMR1_norm_6_23.wav',       SRTcorrect: "the artefacts found at the dig were made of bronze"},
+{SRTstim: 'eShapeStim/Set2/N23_Cond3_EnvShape3_TMR1_norm_4_21.wav',       SRTcorrect: "the couple had been together for three years  "},
+{SRTstim: 'eShapeStim/Set2/N24_Cond4_EnvShape1_TMR2_norm_6_17.wav',       SRTcorrect: "an angry crowd was turned back at the government building"},
+{SRTstim: 'eShapeStim/Set2/N25_Cond5_EnvShape2_TMR2_norm_3_09.wav',       SRTcorrect: "there were tools made from gold found at the site"},
+{SRTstim: 'eShapeStim/Set2/N26_Cond6_EnvShape3_TMR2_norm_4_23.wav',       SRTcorrect: "the soup was kept in a carton in the fridge"},
+{SRTstim: 'eShapeStim/Set2/N27_Cond7_EnvShape1_TMR3_norm_6_11.wav',       SRTcorrect: "his girlfriend had chosen the picture on the wall "},
+{SRTstim: 'eShapeStim/Set2/N28_Cond8_EnvShape2_TMR3_norm_5_01.wav',       SRTcorrect: "their holiday was quite short and would end soon "},
+{SRTstim: 'eShapeStim/Set2/N29_Cond9_EnvShape3_TMR3_norm_3_10.wav',       SRTcorrect: "the recipe for the cake was easy to follow "},
+{SRTstim: 'eShapeStim/Set2/N30_Cond10_EnvShape1_TMR4_norm_51.wav',       SRTcorrect: "the pension payments were worth less and less every month"},
+{SRTstim: 'eShapeStim/Set2/N31_Cond11_EnvShape2_TMR4_norm_1_21.wav',       SRTcorrect: "the building had a nest in its roof  "},
+{SRTstim: 'eShapeStim/Set2/N32_Cond12_EnvShape3_TMR4_norm_17.wav',       SRTcorrect: "the drought was eased by the arrival of the monsoon"},
+{SRTstim: 'eShapeStim/Set2/N33_Cond13_EnvShape1_TMR5_norm_3_15.wav',       SRTcorrect: "the wife of the priest helped out the elderly "},
+{SRTstim: 'eShapeStim/Set2/N34_Cond14_EnvShape2_TMR5_norm_5_25.wav',       SRTcorrect: "the bruise on his knee was quite painful  "},
+{SRTstim: 'eShapeStim/Set2/N35_Cond15_EnvShape3_TMR5_norm_6_03.wav',       SRTcorrect: "the child was sad when her toys were damaged "},
+{SRTstim: 'eShapeStim/Set2/N36_Cond16_EnvShape1_TMR6_norm_5_21.wav',       SRTcorrect: "there was a really beautiful sunset that evening  "},
+{SRTstim: 'eShapeStim/Set2/N37_Cond17_EnvShape2_TMR6_norm_5_22.wav',       SRTcorrect: "it is common for people to avoid the dentist "},
+{SRTstim: 'eShapeStim/Set2/N38_Cond18_EnvShape3_TMR6_norm_4_15.wav',       SRTcorrect: "his briefcase was brown and was made of leather "},
+{SRTstim: 'eShapeStim/Set2/N39_Cond19_EnvShape1_TMR7_norm_3_17.wav',       SRTcorrect: "the fireman climbed down into the bottom of the tunnel"},
+{SRTstim: 'eShapeStim/Set2/N40_Cond20_EnvShape2_TMR7_norm_5_23.wav',       SRTcorrect: "the view from the top of the ridge was amazing"},
+{SRTstim: 'eShapeStim/Set2/N41_Cond21_EnvShape3_TMR7_norm_2_15.wav',       SRTcorrect: "the wax from the candle fell on the book "},
+{SRTstim: 'eShapeStim/Set2/N42_Cond1_EnvShape1_TMR1_norm_6_08.wav',       SRTcorrect: "her daughter was too young for the disco  "},
+];
+
+
+var b3 = [
+{SRTstim: 'eShapeStim/Set2/N43_Cond2_EnvShape2_TMR1_norm_3_25.wav',       SRTcorrect: "the fog in the valley was quite thick  "},
+{SRTstim: 'eShapeStim/Set2/N44_Cond3_EnvShape3_TMR1_norm_6_09.wav',       SRTcorrect: "the beef was rare just as the customer had requested"},
+{SRTstim: 'eShapeStim/Set2/N45_Cond4_EnvShape1_TMR2_norm_44.wav',       SRTcorrect: "airplanes are currently the best way to travel  "},
+{SRTstim: 'eShapeStim/Set2/N46_Cond5_EnvShape2_TMR2_norm_5_17.wav',       SRTcorrect: "a spoon was used to stir the cup of tea"},
+{SRTstim: 'eShapeStim/Set2/N47_Cond6_EnvShape3_TMR2_norm_4_04.wav',       SRTcorrect: "she laughed at the joke about the dog  "},
+{SRTstim: 'eShapeStim/Set2/N48_Cond7_EnvShape1_TMR3_norm_1_15.wav',       SRTcorrect: "the drink was too hot for the baby  "},
+{SRTstim: 'eShapeStim/Set2/N49_Cond8_EnvShape2_TMR3_norm_2_23.wav',       SRTcorrect: "the sketch showed that the road would pass the school"},
+{SRTstim: 'eShapeStim/Set2/N50_Cond9_EnvShape3_TMR3_norm_3_11.wav',       SRTcorrect: "she was sitting on the sofa in her bedroom "},
+{SRTstim: 'eShapeStim/Set2/N51_Cond10_EnvShape1_TMR4_norm_2_11.wav',       SRTcorrect: "snow is unusual in the summer in most countries "},
+{SRTstim: 'eShapeStim/Set2/N52_Cond11_EnvShape2_TMR4_norm_2_20.wav',       SRTcorrect: "the noise was very loud and difficult to ignore "},
+{SRTstim: 'eShapeStim/Set2/N53_Cond12_EnvShape3_TMR4_norm_4_22.wav',       SRTcorrect: "the child left all of his lunch at home "},
+{SRTstim: 'eShapeStim/Set2/N54_Cond13_EnvShape1_TMR5_norm_5_03.wav',       SRTcorrect: "a game of chess can last for four hours "},
+{SRTstim: 'eShapeStim/Set2/N55_Cond14_EnvShape2_TMR5_norm_6_01.wav',       SRTcorrect: "the elephant was huge just as the circus had wanted"},
+{SRTstim: 'eShapeStim/Set2/N56_Cond15_EnvShape3_TMR5_norm_4_17.wav',       SRTcorrect: "the camel was kept in a cage at the zoo"},
+{SRTstim: 'eShapeStim/Set2/N57_Cond16_EnvShape1_TMR6_norm_2_01.wav',       SRTcorrect: "there was beer and cider on the kitchen shelf "},
+{SRTstim: 'eShapeStim/Set2/N58_Cond17_EnvShape2_TMR6_norm_2_17.wav',       SRTcorrect: "He broke his leg when he fell off the horse"},
+{SRTstim: 'eShapeStim/Set2/N59_Cond18_EnvShape3_TMR6_norm_3_21.wav',       SRTcorrect: "the pattern on the rug was quite complex  "},
+{SRTstim: 'eShapeStim/Set2/N60_Cond19_EnvShape1_TMR7_norm_3_23.wav',       SRTcorrect: "the burglar came up over the wall of the palace"},
+{SRTstim: 'eShapeStim/Set2/N61_Cond20_EnvShape2_TMR7_norm_4_11.wav',       SRTcorrect: "her children saw a snake at the picnic  "},
+{SRTstim: 'eShapeStim/Set2/N62_Cond21_EnvShape3_TMR7_norm_5_11.wav',       SRTcorrect: "the blunt knife was rather awkward to use  "},
+{SRTstim: 'eShapeStim/Set2/N63_Cond1_EnvShape1_TMR1_norm_5_15.wav',       SRTcorrect: "the neighbors made a lot of noise last night "},
+];
+
+var b4 = [
+{SRTstim: 'eShapeStim/Set2/N64_Cond2_EnvShape2_TMR1_norm_32.wav',       SRTcorrect: "the bait should be suitable for catching rats  "},
+{SRTstim: 'eShapeStim/Set2/N65_Cond3_EnvShape3_TMR1_norm_30.wav',       SRTcorrect: "the croquet game could begin after the lawn was mowed"},
+{SRTstim: 'eShapeStim/Set2/N66_Cond4_EnvShape1_TMR2_norm_3_01.wav',       SRTcorrect: "the luggage should be kept in a large warehouse "},
+{SRTstim: 'eShapeStim/Set2/N67_Cond5_EnvShape2_TMR2_norm_33.wav',       SRTcorrect: "the pain tempted him to abort the climb  "},
+{SRTstim: 'eShapeStim/Set2/N68_Cond6_EnvShape3_TMR2_norm_5_20.wav',       SRTcorrect: "there were bracelets and necklaces in her jewellery box "},
+{SRTstim: 'eShapeStim/Set2/N69_Cond7_EnvShape1_TMR3_norm_1_08.wav',       SRTcorrect: "the shop was closed when she arrived there  "},
+{SRTstim: 'eShapeStim/Set2/N70_Cond8_EnvShape2_TMR3_norm_04.wav',       SRTcorrect: "they were concerned when the kid laughed at violent movies"},
+{SRTstim: 'eShapeStim/Set2/N71_Cond9_EnvShape3_TMR3_norm_1_20.wav',       SRTcorrect: "the carpet and the curtains were the same colour "},
+{SRTstim: 'eShapeStim/Set2/N72_Cond10_EnvShape1_TMR4_norm_2_22.wav',       SRTcorrect: "he reminded his parents about the game of football "},
+{SRTstim: 'eShapeStim/Set2/N73_Cond11_EnvShape2_TMR4_norm_6_02.wav',       SRTcorrect: "the bride smiled at the photo of her wedding "},
+{SRTstim: 'eShapeStim/Set2/N74_Cond12_EnvShape3_TMR4_norm_4_01.wav',       SRTcorrect: "the computer was sent back after the first month "},
+{SRTstim: 'eShapeStim/Set2/N75_Cond13_EnvShape1_TMR5_norm_5_09.wav',       SRTcorrect: "he guessed the answer to the question in the exam"},
+{SRTstim: 'eShapeStim/Set2/N76_Cond14_EnvShape2_TMR5_norm_4_20.wav',       SRTcorrect: "he was sitting at his desk in his office "},
+{SRTstim: 'eShapeStim/Set2/N77_Cond15_EnvShape3_TMR5_norm_3_20.wav',       SRTcorrect: "he always read a book before going to bed "},
+{SRTstim: 'eShapeStim/Set2/N78_Cond16_EnvShape1_TMR6_norm_3_02.wav',       SRTcorrect: "the boy was able to climb the mountain  "},
+{SRTstim: 'eShapeStim/Set2/N79_Cond17_EnvShape2_TMR6_norm_4_08.wav',       SRTcorrect: "she cleaned the wardrobe after she emptied it  "},
+{SRTstim: 'eShapeStim/Set2/N80_Cond18_EnvShape3_TMR6_norm_12.wav',       SRTcorrect: "the shrubs are watered regularly by the gardener  "},
+{SRTstim: 'eShapeStim/Set2/N81_Cond19_EnvShape1_TMR7_norm_1_25.wav',       SRTcorrect: "the traffic on the highway was very heavy  "},
+{SRTstim: 'eShapeStim/Set2/N82_Cond20_EnvShape2_TMR7_norm_34.wav',       SRTcorrect: "the fumes from the factory are unbearable in the village"},
+{SRTstim: 'eShapeStim/Set2/N83_Cond21_EnvShape3_TMR7_norm_6_25.wav',       SRTcorrect: "he ironed his shirt before he wore it  "},
+{SRTstim: 'eShapeStim/Set2/N84_Cond1_EnvShape1_TMR1_norm_60.wav',       SRTcorrect: "the flag was raised to the top of the flagpole"},
+];
+}
+
+
+
+else if (condition_assignment == 3){
+
+
+
+// Stimuli Set 3 --------------------------
+var audiopreload = [
+'eShapeStim/Set3/N1_Cond3_EnvShape3_TMR1_norm_01.wav',     'eShapeStim/Set3/N2_Cond4_EnvShape1_TMR2_norm_03.wav',     'eShapeStim/Set3/N3_Cond5_EnvShape2_TMR2_norm_2_21.wav',   'eShapeStim/Set3/N4_Cond6_EnvShape3_TMR2_norm_4_02.wav',   'eShapeStim/Set3/N5_Cond7_EnvShape1_TMR3_norm_1_23.wav',   'eShapeStim/Set3/N6_Cond8_EnvShape2_TMR3_norm_3_22.wav',   'eShapeStim/Set3/N7_Cond9_EnvShape3_TMR3_norm_4_25.wav',   'eShapeStim/Set3/N8_Cond10_EnvShape1_TMR4_norm_1_09.wav',
+'eShapeStim/Set3/N9_Cond11_EnvShape2_TMR4_norm_6_21.wav',  'eShapeStim/Set3/N10_Cond12_EnvShape3_TMR4_norm_1_17.wav', 'eShapeStim/Set3/N11_Cond13_EnvShape1_TMR5_norm_2_25.wav', 'eShapeStim/Set3/N12_Cond14_EnvShape2_TMR5_norm_5_08.wav', 'eShapeStim/Set3/N13_Cond15_EnvShape3_TMR5_norm_1_22.wav', 'eShapeStim/Set3/N14_Cond16_EnvShape1_TMR6_norm_4_05.wav', 'eShapeStim/Set3/N15_Cond17_EnvShape2_TMR6_norm_2_09.wav', 'eShapeStim/Set3/N16_Cond18_EnvShape3_TMR6_norm_49.wav',
+'eShapeStim/Set3/N17_Cond19_EnvShape1_TMR7_norm_46.wav',   'eShapeStim/Set3/N18_Cond20_EnvShape2_TMR7_norm_1_03.wav', 'eShapeStim/Set3/N19_Cond21_EnvShape3_TMR7_norm_4_09.wav', 'eShapeStim/Set3/N20_Cond1_EnvShape1_TMR1_norm_27.wav',    'eShapeStim/Set3/N21_Cond2_EnvShape2_TMR1_norm_4_03.wav',  'eShapeStim/Set3/N22_Cond3_EnvShape3_TMR1_norm_6_23.wav',  'eShapeStim/Set3/N23_Cond4_EnvShape1_TMR2_norm_4_21.wav',  'eShapeStim/Set3/N24_Cond5_EnvShape2_TMR2_norm_6_17.wav',
+'eShapeStim/Set3/N25_Cond6_EnvShape3_TMR2_norm_3_09.wav',  'eShapeStim/Set3/N26_Cond7_EnvShape1_TMR3_norm_4_23.wav',  'eShapeStim/Set3/N27_Cond8_EnvShape2_TMR3_norm_6_11.wav',  'eShapeStim/Set3/N28_Cond9_EnvShape3_TMR3_norm_5_01.wav',  'eShapeStim/Set3/N29_Cond10_EnvShape1_TMR4_norm_3_10.wav', 'eShapeStim/Set3/N30_Cond11_EnvShape2_TMR4_norm_51.wav',   'eShapeStim/Set3/N31_Cond12_EnvShape3_TMR4_norm_1_21.wav', 'eShapeStim/Set3/N32_Cond13_EnvShape1_TMR5_norm_17.wav',
+'eShapeStim/Set3/N33_Cond14_EnvShape2_TMR5_norm_3_15.wav', 'eShapeStim/Set3/N34_Cond15_EnvShape3_TMR5_norm_5_25.wav', 'eShapeStim/Set3/N35_Cond16_EnvShape1_TMR6_norm_6_03.wav', 'eShapeStim/Set3/N36_Cond17_EnvShape2_TMR6_norm_5_21.wav', 'eShapeStim/Set3/N37_Cond18_EnvShape3_TMR6_norm_5_22.wav', 'eShapeStim/Set3/N38_Cond19_EnvShape1_TMR7_norm_4_15.wav', 'eShapeStim/Set3/N39_Cond20_EnvShape2_TMR7_norm_3_17.wav', 'eShapeStim/Set3/N40_Cond21_EnvShape3_TMR7_norm_5_23.wav',
+'eShapeStim/Set3/N41_Cond1_EnvShape1_TMR1_norm_2_15.wav',  'eShapeStim/Set3/N42_Cond2_EnvShape2_TMR1_norm_6_08.wav',  'eShapeStim/Set3/N43_Cond3_EnvShape3_TMR1_norm_3_25.wav',  'eShapeStim/Set3/N44_Cond4_EnvShape1_TMR2_norm_6_09.wav',  'eShapeStim/Set3/N45_Cond5_EnvShape2_TMR2_norm_44.wav',    'eShapeStim/Set3/N46_Cond6_EnvShape3_TMR2_norm_5_17.wav',  'eShapeStim/Set3/N47_Cond7_EnvShape1_TMR3_norm_4_04.wav',  'eShapeStim/Set3/N48_Cond8_EnvShape2_TMR3_norm_1_15.wav',
+'eShapeStim/Set3/N49_Cond9_EnvShape3_TMR3_norm_2_23.wav',  'eShapeStim/Set3/N50_Cond10_EnvShape1_TMR4_norm_3_11.wav', 'eShapeStim/Set3/N51_Cond11_EnvShape2_TMR4_norm_2_11.wav', 'eShapeStim/Set3/N52_Cond12_EnvShape3_TMR4_norm_2_20.wav', 'eShapeStim/Set3/N53_Cond13_EnvShape1_TMR5_norm_4_22.wav', 'eShapeStim/Set3/N54_Cond14_EnvShape2_TMR5_norm_5_03.wav', 'eShapeStim/Set3/N55_Cond15_EnvShape3_TMR5_norm_6_01.wav', 'eShapeStim/Set3/N56_Cond16_EnvShape1_TMR6_norm_4_17.wav',
+'eShapeStim/Set3/N57_Cond17_EnvShape2_TMR6_norm_2_01.wav', 'eShapeStim/Set3/N58_Cond18_EnvShape3_TMR6_norm_2_17.wav', 'eShapeStim/Set3/N59_Cond19_EnvShape1_TMR7_norm_3_21.wav', 'eShapeStim/Set3/N60_Cond20_EnvShape2_TMR7_norm_3_23.wav', 'eShapeStim/Set3/N61_Cond21_EnvShape3_TMR7_norm_4_11.wav', 'eShapeStim/Set3/N62_Cond1_EnvShape1_TMR1_norm_5_11.wav',  'eShapeStim/Set3/N63_Cond2_EnvShape2_TMR1_norm_5_15.wav',  'eShapeStim/Set3/N64_Cond3_EnvShape3_TMR1_norm_32.wav',
+'eShapeStim/Set3/N65_Cond4_EnvShape1_TMR2_norm_30.wav',    'eShapeStim/Set3/N66_Cond5_EnvShape2_TMR2_norm_3_01.wav',  'eShapeStim/Set3/N67_Cond6_EnvShape3_TMR2_norm_33.wav',    'eShapeStim/Set3/N68_Cond7_EnvShape1_TMR3_norm_5_20.wav',  'eShapeStim/Set3/N69_Cond8_EnvShape2_TMR3_norm_1_08.wav',  'eShapeStim/Set3/N70_Cond9_EnvShape3_TMR3_norm_04.wav',    'eShapeStim/Set3/N71_Cond10_EnvShape1_TMR4_norm_1_20.wav', 'eShapeStim/Set3/N72_Cond11_EnvShape2_TMR4_norm_2_22.wav',
+'eShapeStim/Set3/N73_Cond12_EnvShape3_TMR4_norm_6_02.wav', 'eShapeStim/Set3/N74_Cond13_EnvShape1_TMR5_norm_4_01.wav', 'eShapeStim/Set3/N75_Cond14_EnvShape2_TMR5_norm_5_09.wav', 'eShapeStim/Set3/N76_Cond15_EnvShape3_TMR5_norm_4_20.wav', 'eShapeStim/Set3/N77_Cond16_EnvShape1_TMR6_norm_3_20.wav', 'eShapeStim/Set3/N78_Cond17_EnvShape2_TMR6_norm_3_02.wav', 'eShapeStim/Set3/N79_Cond18_EnvShape3_TMR6_norm_4_08.wav', 'eShapeStim/Set3/N80_Cond19_EnvShape1_TMR7_norm_12.wav',
+'eShapeStim/Set3/N81_Cond20_EnvShape2_TMR7_norm_1_25.wav',  'eShapeStim/Set3/N82_Cond21_EnvShape3_TMR7_norm_34.wav',  'eShapeStim/Set3/N83_Cond1_EnvShape1_TMR1_norm_6_25.wav',  'eShapeStim/Set3/N84_Cond2_EnvShape2_TMR1_norm_60.wav', 'eShapeStim/pinknoise_rms05.wav', 'eShapeStim/tone_200Hz_rms05_unaltered.wav', 'eShapeStim/tone_200Hz_rms05_LR180phase.wav','eShapeStim/tone_200Hz_initrms05_-6db.wav','eShapeStim/o_key_adj.wav','eShapeStim/w_key_adj.wav'  ];
+
+
+var b1 = [
+{SRTstim: 'eShapeStim/Set3/N1_Cond3_EnvShape3_TMR1_norm_01.wav',       SRTcorrect: "the safety rules of the apartment were important to follow"},
+{SRTstim: 'eShapeStim/Set3/N2_Cond4_EnvShape1_TMR2_norm_03.wav',       SRTcorrect: "the win helped our team advance to the playoffs "},
+{SRTstim: 'eShapeStim/Set3/N3_Cond5_EnvShape2_TMR2_norm_2_21.wav',       SRTcorrect: "the boy was able to conceal his cigarette  "},
+{SRTstim: 'eShapeStim/Set3/N4_Cond6_EnvShape3_TMR2_norm_4_02.wav',       SRTcorrect: "he added milk and sugar to his coffee  "},
+{SRTstim: 'eShapeStim/Set3/N5_Cond7_EnvShape1_TMR3_norm_1_23.wav',       SRTcorrect: "his face showed that his team had lost the game"},
+{SRTstim: 'eShapeStim/Set3/N6_Cond8_EnvShape2_TMR3_norm_3_22.wav',       SRTcorrect: "he surprised his parents by his lack of concern "},
+{SRTstim: 'eShapeStim/Set3/N7_Cond9_EnvShape3_TMR3_norm_4_25.wav',       SRTcorrect: "she loved stories about fairies wizards and dragons  "},
+{SRTstim: 'eShapeStim/Set3/N8_Cond10_EnvShape1_TMR4_norm_1_09.wav',       SRTcorrect: "they told the truth about the fight to the teacher"},
+{SRTstim: 'eShapeStim/Set3/N9_Cond11_EnvShape2_TMR4_norm_6_21.wav',       SRTcorrect: "the rice was cooked in a large saucepan  "},
+{SRTstim: 'eShapeStim/Set3/N10_Cond12_EnvShape3_TMR4_norm_1_17.wav',       SRTcorrect: "the gambler lost most of his money at the races"},
+{SRTstim: 'eShapeStim/Set3/N11_Cond13_EnvShape1_TMR5_norm_2_25.wav',       SRTcorrect: "there was lettuce and cucumber in the salad  "},
+{SRTstim: 'eShapeStim/Set3/N12_Cond14_EnvShape2_TMR5_norm_5_08.wav',       SRTcorrect: "the juice was served in a large jug  "},
+{SRTstim: 'eShapeStim/Set3/N13_Cond15_EnvShape3_TMR5_norm_1_22.wav',       SRTcorrect: "he left school before he had done his exams "},
+{SRTstim: 'eShapeStim/Set3/N14_Cond16_EnvShape1_TMR6_norm_4_05.wav',       SRTcorrect: "the housewife was able to carry the bags of food"},
+{SRTstim: 'eShapeStim/Set3/N15_Cond17_EnvShape2_TMR6_norm_2_09.wav',       SRTcorrect: "gin was not a drink that her old man liked"},
+{SRTstim: 'eShapeStim/Set3/N16_Cond18_EnvShape3_TMR6_norm_49.wav',       SRTcorrect: "taking a hostage allowed the robbers to make their escape"},
+{SRTstim: 'eShapeStim/Set3/N17_Cond19_EnvShape1_TMR7_norm_46.wav',       SRTcorrect: "the platform started creaking alarmingly during the speech  "},
+{SRTstim: 'eShapeStim/Set3/N18_Cond20_EnvShape2_TMR7_norm_1_03.wav',       SRTcorrect: "the new owners of the house painted it pink "},
+{SRTstim: 'eShapeStim/Set3/N19_Cond21_EnvShape3_TMR7_norm_4_09.wav',       SRTcorrect: "the goat was as greedy as the family had expected"},
+{SRTstim: 'eShapeStim/Set3/N20_Cond1_EnvShape1_TMR1_norm_27.wav',       SRTcorrect: "she claimed that the bran tasted much nicer  "},
+{SRTstim: 'eShapeStim/Set3/N21_Cond2_EnvShape2_TMR1_norm_4_03.wav',       SRTcorrect: "the cake and the biscuits had the same flavour "},
+];
+
+var b2 = [
+{SRTstim: 'eShapeStim/Set3/N22_Cond3_EnvShape3_TMR1_norm_6_23.wav',       SRTcorrect: "the artefacts found at the dig were made of bronze"},
+{SRTstim: 'eShapeStim/Set3/N23_Cond4_EnvShape1_TMR2_norm_4_21.wav',       SRTcorrect: "the couple had been together for three years  "},
+{SRTstim: 'eShapeStim/Set3/N24_Cond5_EnvShape2_TMR2_norm_6_17.wav',       SRTcorrect: "an angry crowd was turned back at the government building"},
+{SRTstim: 'eShapeStim/Set3/N25_Cond6_EnvShape3_TMR2_norm_3_09.wav',       SRTcorrect: "there were tools made from gold found at the site"},
+{SRTstim: 'eShapeStim/Set3/N26_Cond7_EnvShape1_TMR3_norm_4_23.wav',       SRTcorrect: "the soup was kept in a carton in the fridge"},
+{SRTstim: 'eShapeStim/Set3/N27_Cond8_EnvShape2_TMR3_norm_6_11.wav',       SRTcorrect: "his girlfriend had chosen the picture on the wall "},
+{SRTstim: 'eShapeStim/Set3/N28_Cond9_EnvShape3_TMR3_norm_5_01.wav',       SRTcorrect: "their holiday was quite short and would end soon "},
+{SRTstim: 'eShapeStim/Set3/N29_Cond10_EnvShape1_TMR4_norm_3_10.wav',       SRTcorrect: "the recipe for the cake was easy to follow "},
+{SRTstim: 'eShapeStim/Set3/N30_Cond11_EnvShape2_TMR4_norm_51.wav',       SRTcorrect: "the pension payments were worth less and less every month"},
+{SRTstim: 'eShapeStim/Set3/N31_Cond12_EnvShape3_TMR4_norm_1_21.wav',       SRTcorrect: "the building had a nest in its roof  "},
+{SRTstim: 'eShapeStim/Set3/N32_Cond13_EnvShape1_TMR5_norm_17.wav',       SRTcorrect: "the drought was eased by the arrival of the monsoon"},
+{SRTstim: 'eShapeStim/Set3/N33_Cond14_EnvShape2_TMR5_norm_3_15.wav',       SRTcorrect: "the wife of the priest helped out the elderly "},
+{SRTstim: 'eShapeStim/Set3/N34_Cond15_EnvShape3_TMR5_norm_5_25.wav',       SRTcorrect: "the bruise on his knee was quite painful  "},
+{SRTstim: 'eShapeStim/Set3/N35_Cond16_EnvShape1_TMR6_norm_6_03.wav',       SRTcorrect: "the child was sad when her toys were damaged "},
+{SRTstim: 'eShapeStim/Set3/N36_Cond17_EnvShape2_TMR6_norm_5_21.wav',       SRTcorrect: "there was a really beautiful sunset that evening  "},
+{SRTstim: 'eShapeStim/Set3/N37_Cond18_EnvShape3_TMR6_norm_5_22.wav',       SRTcorrect: "it is common for people to avoid the dentist "},
+{SRTstim: 'eShapeStim/Set3/N38_Cond19_EnvShape1_TMR7_norm_4_15.wav',       SRTcorrect: "his briefcase was brown and was made of leather "},
+{SRTstim: 'eShapeStim/Set3/N39_Cond20_EnvShape2_TMR7_norm_3_17.wav',       SRTcorrect: "the fireman climbed down into the bottom of the tunnel"},
+{SRTstim: 'eShapeStim/Set3/N40_Cond21_EnvShape3_TMR7_norm_5_23.wav',       SRTcorrect: "the view from the top of the ridge was amazing"},
+{SRTstim: 'eShapeStim/Set3/N41_Cond1_EnvShape1_TMR1_norm_2_15.wav',       SRTcorrect: "the wax from the candle fell on the book "},
+{SRTstim: 'eShapeStim/Set3/N42_Cond2_EnvShape2_TMR1_norm_6_08.wav',       SRTcorrect: "her daughter was too young for the disco  "},
+];
+
+var b3 = [
+{SRTstim: 'eShapeStim/Set3/N43_Cond3_EnvShape3_TMR1_norm_3_25.wav',       SRTcorrect: "the fog in the valley was quite thick  "},
+{SRTstim: 'eShapeStim/Set3/N44_Cond4_EnvShape1_TMR2_norm_6_09.wav',       SRTcorrect: "the beef was rare just as the customer had requested"},
+{SRTstim: 'eShapeStim/Set3/N45_Cond5_EnvShape2_TMR2_norm_44.wav',       SRTcorrect: "airplanes are currently the best way to travel  "},
+{SRTstim: 'eShapeStim/Set3/N46_Cond6_EnvShape3_TMR2_norm_5_17.wav',       SRTcorrect: "a spoon was used to stir the cup of tea"},
+{SRTstim: 'eShapeStim/Set3/N47_Cond7_EnvShape1_TMR3_norm_4_04.wav',       SRTcorrect: "she laughed at the joke about the dog  "},
+{SRTstim: 'eShapeStim/Set3/N48_Cond8_EnvShape2_TMR3_norm_1_15.wav',       SRTcorrect: "the drink was too hot for the baby  "},
+{SRTstim: 'eShapeStim/Set3/N49_Cond9_EnvShape3_TMR3_norm_2_23.wav',       SRTcorrect: "the sketch showed that the road would pass the school"},
+{SRTstim: 'eShapeStim/Set3/N50_Cond10_EnvShape1_TMR4_norm_3_11.wav',       SRTcorrect: "she was sitting on the sofa in her bedroom "},
+{SRTstim: 'eShapeStim/Set3/N51_Cond11_EnvShape2_TMR4_norm_2_11.wav',       SRTcorrect: "snow is unusual in the summer in most countries "},
+{SRTstim: 'eShapeStim/Set3/N52_Cond12_EnvShape3_TMR4_norm_2_20.wav',       SRTcorrect: "the noise was very loud and difficult to ignore "},
+{SRTstim: 'eShapeStim/Set3/N53_Cond13_EnvShape1_TMR5_norm_4_22.wav',       SRTcorrect: "the child left all of his lunch at home "},
+{SRTstim: 'eShapeStim/Set3/N54_Cond14_EnvShape2_TMR5_norm_5_03.wav',       SRTcorrect: "a game of chess can last for four hours "},
+{SRTstim: 'eShapeStim/Set3/N55_Cond15_EnvShape3_TMR5_norm_6_01.wav',       SRTcorrect: "the elephant was huge just as the circus had wanted"},
+{SRTstim: 'eShapeStim/Set3/N56_Cond16_EnvShape1_TMR6_norm_4_17.wav',       SRTcorrect: "the camel was kept in a cage at the zoo"},
+{SRTstim: 'eShapeStim/Set3/N57_Cond17_EnvShape2_TMR6_norm_2_01.wav',       SRTcorrect: "there was beer and cider on the kitchen shelf "},
+{SRTstim: 'eShapeStim/Set3/N58_Cond18_EnvShape3_TMR6_norm_2_17.wav',       SRTcorrect: "He broke his leg when he fell off the horse"},
+{SRTstim: 'eShapeStim/Set3/N59_Cond19_EnvShape1_TMR7_norm_3_21.wav',       SRTcorrect: "the pattern on the rug was quite complex  "},
+{SRTstim: 'eShapeStim/Set3/N60_Cond20_EnvShape2_TMR7_norm_3_23.wav',       SRTcorrect: "the burglar came up over the wall of the palace"},
+{SRTstim: 'eShapeStim/Set3/N61_Cond21_EnvShape3_TMR7_norm_4_11.wav',       SRTcorrect: "her children saw a snake at the picnic  "},
+{SRTstim: 'eShapeStim/Set3/N62_Cond1_EnvShape1_TMR1_norm_5_11.wav',       SRTcorrect: "the blunt knife was rather awkward to use  "},
+{SRTstim: 'eShapeStim/Set3/N63_Cond2_EnvShape2_TMR1_norm_5_15.wav',       SRTcorrect: "the neighbors made a lot of noise last night "},
+];
+
+var b4 = [
+{SRTstim: 'eShapeStim/Set3/N64_Cond3_EnvShape3_TMR1_norm_32.wav',       SRTcorrect: "the bait should be suitable for catching rats  "},
+{SRTstim: 'eShapeStim/Set3/N65_Cond4_EnvShape1_TMR2_norm_30.wav',       SRTcorrect: "the croquet game could begin after the lawn was mowed"},
+{SRTstim: 'eShapeStim/Set3/N66_Cond5_EnvShape2_TMR2_norm_3_01.wav',       SRTcorrect: "the luggage should be kept in a large warehouse "},
+{SRTstim: 'eShapeStim/Set3/N67_Cond6_EnvShape3_TMR2_norm_33.wav',       SRTcorrect: "the pain tempted him to abort the climb  "},
+{SRTstim: 'eShapeStim/Set3/N68_Cond7_EnvShape1_TMR3_norm_5_20.wav',       SRTcorrect: "there were bracelets and necklaces in her jewellery box "},
+{SRTstim: 'eShapeStim/Set3/N69_Cond8_EnvShape2_TMR3_norm_1_08.wav',       SRTcorrect: "the shop was closed when she arrived there  "},
+{SRTstim: 'eShapeStim/Set3/N70_Cond9_EnvShape3_TMR3_norm_04.wav',       SRTcorrect: "they were concerned when the kid laughed at violent movies"},
+{SRTstim: 'eShapeStim/Set3/N71_Cond10_EnvShape1_TMR4_norm_1_20.wav',       SRTcorrect: "the carpet and the curtains were the same colour "},
+{SRTstim: 'eShapeStim/Set3/N72_Cond11_EnvShape2_TMR4_norm_2_22.wav',       SRTcorrect: "he reminded his parents about the game of football "},
+{SRTstim: 'eShapeStim/Set3/N73_Cond12_EnvShape3_TMR4_norm_6_02.wav',       SRTcorrect: "the bride smiled at the photo of her wedding "},
+{SRTstim: 'eShapeStim/Set3/N74_Cond13_EnvShape1_TMR5_norm_4_01.wav',       SRTcorrect: "the computer was sent back after the first month "},
+{SRTstim: 'eShapeStim/Set3/N75_Cond14_EnvShape2_TMR5_norm_5_09.wav',       SRTcorrect: "he guessed the answer to the question in the exam"},
+{SRTstim: 'eShapeStim/Set3/N76_Cond15_EnvShape3_TMR5_norm_4_20.wav',       SRTcorrect: "he was sitting at his desk in his office "},
+{SRTstim: 'eShapeStim/Set3/N77_Cond16_EnvShape1_TMR6_norm_3_20.wav',       SRTcorrect: "he always read a book before going to bed "},
+{SRTstim: 'eShapeStim/Set3/N78_Cond17_EnvShape2_TMR6_norm_3_02.wav',       SRTcorrect: "the boy was able to climb the mountain  "},
+{SRTstim: 'eShapeStim/Set3/N79_Cond18_EnvShape3_TMR6_norm_4_08.wav',       SRTcorrect: "she cleaned the wardrobe after she emptied it  "},
+{SRTstim: 'eShapeStim/Set3/N80_Cond19_EnvShape1_TMR7_norm_12.wav',       SRTcorrect: "the shrubs are watered regularly by the gardener  "},
+{SRTstim: 'eShapeStim/Set3/N81_Cond20_EnvShape2_TMR7_norm_1_25.wav',       SRTcorrect: "the traffic on the highway was very heavy  "},
+{SRTstim: 'eShapeStim/Set3/N82_Cond21_EnvShape3_TMR7_norm_34.wav',       SRTcorrect: "the fumes from the factory are unbearable in the village"},
+{SRTstim: 'eShapeStim/Set3/N83_Cond1_EnvShape1_TMR1_norm_6_25.wav',       SRTcorrect: "he ironed his shirt before he wore it  "},
+{SRTstim: 'eShapeStim/Set3/N84_Cond2_EnvShape2_TMR1_norm_60.wav',       SRTcorrect: "the flag was raised to the top of the flagpole"},
+];
+
+}
+
+else if (condition_assignment == 4){
+
+
+
+// Stimuli Set 4 --------------------------
+var audiopreload = [
+'eShapeStim/Set4/N1_Cond4_EnvShape1_TMR2_norm_01.wav',
+'eShapeStim/Set4/N2_Cond5_EnvShape2_TMR2_norm_03.wav',
+'eShapeStim/Set4/N3_Cond6_EnvShape3_TMR2_norm_2_21.wav',
+'eShapeStim/Set4/N4_Cond7_EnvShape1_TMR3_norm_4_02.wav',
+'eShapeStim/Set4/N5_Cond8_EnvShape2_TMR3_norm_1_23.wav',
+'eShapeStim/Set4/N6_Cond9_EnvShape3_TMR3_norm_3_22.wav',
+'eShapeStim/Set4/N7_Cond10_EnvShape1_TMR4_norm_4_25.wav',
+'eShapeStim/Set4/N8_Cond11_EnvShape2_TMR4_norm_1_09.wav',
+'eShapeStim/Set4/N9_Cond12_EnvShape3_TMR4_norm_6_21.wav',
+'eShapeStim/Set4/N10_Cond13_EnvShape1_TMR5_norm_1_17.wav',
+'eShapeStim/Set4/N11_Cond14_EnvShape2_TMR5_norm_2_25.wav',
+'eShapeStim/Set4/N12_Cond15_EnvShape3_TMR5_norm_5_08.wav',
+'eShapeStim/Set4/N13_Cond16_EnvShape1_TMR6_norm_1_22.wav',
+'eShapeStim/Set4/N14_Cond17_EnvShape2_TMR6_norm_4_05.wav',
+'eShapeStim/Set4/N15_Cond18_EnvShape3_TMR6_norm_2_09.wav',
+'eShapeStim/Set4/N16_Cond19_EnvShape1_TMR7_norm_49.wav',
+'eShapeStim/Set4/N17_Cond20_EnvShape2_TMR7_norm_46.wav',
+'eShapeStim/Set4/N18_Cond21_EnvShape3_TMR7_norm_1_03.wav',
+'eShapeStim/Set4/N19_Cond1_EnvShape1_TMR1_norm_4_09.wav',
+'eShapeStim/Set4/N20_Cond2_EnvShape2_TMR1_norm_27.wav',
+'eShapeStim/Set4/N21_Cond3_EnvShape3_TMR1_norm_4_03.wav',
+'eShapeStim/Set4/N22_Cond4_EnvShape1_TMR2_norm_6_23.wav',
+'eShapeStim/Set4/N23_Cond5_EnvShape2_TMR2_norm_4_21.wav',
+'eShapeStim/Set4/N24_Cond6_EnvShape3_TMR2_norm_6_17.wav',
+'eShapeStim/Set4/N25_Cond7_EnvShape1_TMR3_norm_3_09.wav',
+'eShapeStim/Set4/N26_Cond8_EnvShape2_TMR3_norm_4_23.wav',
+'eShapeStim/Set4/N27_Cond9_EnvShape3_TMR3_norm_6_11.wav',
+'eShapeStim/Set4/N28_Cond10_EnvShape1_TMR4_norm_5_01.wav',
+'eShapeStim/Set4/N29_Cond11_EnvShape2_TMR4_norm_3_10.wav',
+'eShapeStim/Set4/N30_Cond12_EnvShape3_TMR4_norm_51.wav',
+'eShapeStim/Set4/N31_Cond13_EnvShape1_TMR5_norm_1_21.wav',
+'eShapeStim/Set4/N32_Cond14_EnvShape2_TMR5_norm_17.wav',
+'eShapeStim/Set4/N33_Cond15_EnvShape3_TMR5_norm_3_15.wav',
+'eShapeStim/Set4/N34_Cond16_EnvShape1_TMR6_norm_5_25.wav',
+'eShapeStim/Set4/N35_Cond17_EnvShape2_TMR6_norm_6_03.wav',
+'eShapeStim/Set4/N36_Cond18_EnvShape3_TMR6_norm_5_21.wav',
+'eShapeStim/Set4/N37_Cond19_EnvShape1_TMR7_norm_5_22.wav',
+'eShapeStim/Set4/N38_Cond20_EnvShape2_TMR7_norm_4_15.wav',
+'eShapeStim/Set4/N39_Cond21_EnvShape3_TMR7_norm_3_17.wav',
+'eShapeStim/Set4/N40_Cond1_EnvShape1_TMR1_norm_5_23.wav',
+'eShapeStim/Set4/N41_Cond2_EnvShape2_TMR1_norm_2_15.wav',
+'eShapeStim/Set4/N42_Cond3_EnvShape3_TMR1_norm_6_08.wav',
+'eShapeStim/Set4/N43_Cond4_EnvShape1_TMR2_norm_3_25.wav',
+'eShapeStim/Set4/N44_Cond5_EnvShape2_TMR2_norm_6_09.wav',
+'eShapeStim/Set4/N45_Cond6_EnvShape3_TMR2_norm_44.wav',
+'eShapeStim/Set4/N46_Cond7_EnvShape1_TMR3_norm_5_17.wav',
+'eShapeStim/Set4/N47_Cond8_EnvShape2_TMR3_norm_4_04.wav',
+'eShapeStim/Set4/N48_Cond9_EnvShape3_TMR3_norm_1_15.wav',
+'eShapeStim/Set4/N49_Cond10_EnvShape1_TMR4_norm_2_23.wav',
+'eShapeStim/Set4/N50_Cond11_EnvShape2_TMR4_norm_3_11.wav',
+'eShapeStim/Set4/N51_Cond12_EnvShape3_TMR4_norm_2_11.wav',
+'eShapeStim/Set4/N52_Cond13_EnvShape1_TMR5_norm_2_20.wav',
+'eShapeStim/Set4/N53_Cond14_EnvShape2_TMR5_norm_4_22.wav',
+'eShapeStim/Set4/N54_Cond15_EnvShape3_TMR5_norm_5_03.wav',
+'eShapeStim/Set4/N55_Cond16_EnvShape1_TMR6_norm_6_01.wav',
+'eShapeStim/Set4/N56_Cond17_EnvShape2_TMR6_norm_4_17.wav',
+'eShapeStim/Set4/N57_Cond18_EnvShape3_TMR6_norm_2_01.wav',
+'eShapeStim/Set4/N58_Cond19_EnvShape1_TMR7_norm_2_17.wav',
+'eShapeStim/Set4/N59_Cond20_EnvShape2_TMR7_norm_3_21.wav',
+'eShapeStim/Set4/N60_Cond21_EnvShape3_TMR7_norm_3_23.wav',
+'eShapeStim/Set4/N61_Cond1_EnvShape1_TMR1_norm_4_11.wav',
+'eShapeStim/Set4/N62_Cond2_EnvShape2_TMR1_norm_5_11.wav',
+'eShapeStim/Set4/N63_Cond3_EnvShape3_TMR1_norm_5_15.wav',
+'eShapeStim/Set4/N64_Cond4_EnvShape1_TMR2_norm_32.wav',
+'eShapeStim/Set4/N65_Cond5_EnvShape2_TMR2_norm_30.wav',
+'eShapeStim/Set4/N66_Cond6_EnvShape3_TMR2_norm_3_01.wav',
+'eShapeStim/Set4/N67_Cond7_EnvShape1_TMR3_norm_33.wav',
+'eShapeStim/Set4/N68_Cond8_EnvShape2_TMR3_norm_5_20.wav',
+'eShapeStim/Set4/N69_Cond9_EnvShape3_TMR3_norm_1_08.wav',
+'eShapeStim/Set4/N70_Cond10_EnvShape1_TMR4_norm_04.wav',
+'eShapeStim/Set4/N71_Cond11_EnvShape2_TMR4_norm_1_20.wav',
+'eShapeStim/Set4/N72_Cond12_EnvShape3_TMR4_norm_2_22.wav',
+'eShapeStim/Set4/N73_Cond13_EnvShape1_TMR5_norm_6_02.wav',
+'eShapeStim/Set4/N74_Cond14_EnvShape2_TMR5_norm_4_01.wav',
+'eShapeStim/Set4/N75_Cond15_EnvShape3_TMR5_norm_5_09.wav',
+'eShapeStim/Set4/N76_Cond16_EnvShape1_TMR6_norm_4_20.wav',
+'eShapeStim/Set4/N77_Cond17_EnvShape2_TMR6_norm_3_20.wav',
+'eShapeStim/Set4/N78_Cond18_EnvShape3_TMR6_norm_3_02.wav',
+'eShapeStim/Set4/N79_Cond19_EnvShape1_TMR7_norm_4_08.wav',
+'eShapeStim/Set4/N80_Cond20_EnvShape2_TMR7_norm_12.wav',
+'eShapeStim/Set4/N81_Cond21_EnvShape3_TMR7_norm_1_25.wav',
+'eShapeStim/Set4/N82_Cond1_EnvShape1_TMR1_norm_34.wav',
+'eShapeStim/Set4/N83_Cond2_EnvShape2_TMR1_norm_6_25.wav',
+'eShapeStim/Set4/N84_Cond3_EnvShape3_TMR1_norm_60.wav',
+'eShapeStim/pinknoise_rms05.wav', 
+'eShapeStim/tone_200Hz_rms05_unaltered.wav',
+'eShapeStim/tone_200Hz_rms05_LR180phase.wav',
+'eShapeStim/tone_200Hz_initrms05_-6db.wav','eShapeStim/o_key_adj.wav','eShapeStim/w_key_adj.wav'];
+
+
+var b1 = [
+{SRTstim: 'eShapeStim/Set4/N1_Cond4_EnvShape1_TMR2_norm_01.wav',       SRTcorrect: "the safety rules of the apartment were important to follow"},
+{SRTstim: 'eShapeStim/Set4/N2_Cond5_EnvShape2_TMR2_norm_03.wav',       SRTcorrect: "the win helped our team advance to the playoffs "},
+{SRTstim: 'eShapeStim/Set4/N3_Cond6_EnvShape3_TMR2_norm_2_21.wav',       SRTcorrect: "the boy was able to conceal his cigarette  "},
+{SRTstim: 'eShapeStim/Set4/N4_Cond7_EnvShape1_TMR3_norm_4_02.wav',       SRTcorrect: "he added milk and sugar to his coffee  "},
+{SRTstim: 'eShapeStim/Set4/N5_Cond8_EnvShape2_TMR3_norm_1_23.wav',       SRTcorrect: "his face showed that his team had lost the game"},
+{SRTstim: 'eShapeStim/Set4/N6_Cond9_EnvShape3_TMR3_norm_3_22.wav',       SRTcorrect: "he surprised his parents by his lack of concern "},
+{SRTstim: 'eShapeStim/Set4/N7_Cond10_EnvShape1_TMR4_norm_4_25.wav',       SRTcorrect: "she loved stories about fairies wizards and dragons  "},
+{SRTstim: 'eShapeStim/Set4/N8_Cond11_EnvShape2_TMR4_norm_1_09.wav',       SRTcorrect: "they told the truth about the fight to the teacher"},
+{SRTstim: 'eShapeStim/Set4/N9_Cond12_EnvShape3_TMR4_norm_6_21.wav',       SRTcorrect: "the rice was cooked in a large saucepan  "},
+{SRTstim: 'eShapeStim/Set4/N10_Cond13_EnvShape1_TMR5_norm_1_17.wav',       SRTcorrect: "the gambler lost most of his money at the races"},
+{SRTstim: 'eShapeStim/Set4/N11_Cond14_EnvShape2_TMR5_norm_2_25.wav',       SRTcorrect: "there was lettuce and cucumber in the salad  "},
+{SRTstim: 'eShapeStim/Set4/N12_Cond15_EnvShape3_TMR5_norm_5_08.wav',       SRTcorrect: "the juice was served in a large jug  "},
+{SRTstim: 'eShapeStim/Set4/N13_Cond16_EnvShape1_TMR6_norm_1_22.wav',       SRTcorrect: "he left school before he had done his exams "},
+{SRTstim: 'eShapeStim/Set4/N14_Cond17_EnvShape2_TMR6_norm_4_05.wav',       SRTcorrect: "the housewife was able to carry the bags of food"},
+{SRTstim: 'eShapeStim/Set4/N15_Cond18_EnvShape3_TMR6_norm_2_09.wav',       SRTcorrect: "gin was not a drink that her old man liked"},
+{SRTstim: 'eShapeStim/Set4/N16_Cond19_EnvShape1_TMR7_norm_49.wav',       SRTcorrect: "taking a hostage allowed the robbers to make their escape"},
+{SRTstim: 'eShapeStim/Set4/N17_Cond20_EnvShape2_TMR7_norm_46.wav',       SRTcorrect: "the platform started creaking alarmingly during the speech  "},
+{SRTstim: 'eShapeStim/Set4/N18_Cond21_EnvShape3_TMR7_norm_1_03.wav',       SRTcorrect: "the new owners of the house painted it pink "},
+{SRTstim: 'eShapeStim/Set4/N19_Cond1_EnvShape1_TMR1_norm_4_09.wav',       SRTcorrect: "the goat was as greedy as the family had expected"},
+{SRTstim: 'eShapeStim/Set4/N20_Cond2_EnvShape2_TMR1_norm_27.wav',       SRTcorrect: "she claimed that the bran tasted much nicer  "},
+{SRTstim: 'eShapeStim/Set4/N21_Cond3_EnvShape3_TMR1_norm_4_03.wav',       SRTcorrect: "the cake and the biscuits had the same flavour "},
+];
+
+var b2 = [
+{SRTstim: 'eShapeStim/Set4/N22_Cond4_EnvShape1_TMR2_norm_6_23.wav',       SRTcorrect: "the artefacts found at the dig were made of bronze"},
+{SRTstim: 'eShapeStim/Set4/N23_Cond5_EnvShape2_TMR2_norm_4_21.wav',       SRTcorrect: "the couple had been together for three years  "},
+{SRTstim: 'eShapeStim/Set4/N24_Cond6_EnvShape3_TMR2_norm_6_17.wav',       SRTcorrect: "an angry crowd was turned back at the government building"},
+{SRTstim: 'eShapeStim/Set4/N25_Cond7_EnvShape1_TMR3_norm_3_09.wav',       SRTcorrect: "there were tools made from gold found at the site"},
+{SRTstim: 'eShapeStim/Set4/N26_Cond8_EnvShape2_TMR3_norm_4_23.wav',       SRTcorrect: "the soup was kept in a carton in the fridge"},
+{SRTstim: 'eShapeStim/Set4/N27_Cond9_EnvShape3_TMR3_norm_6_11.wav',       SRTcorrect: "his girlfriend had chosen the picture on the wall "},
+{SRTstim: 'eShapeStim/Set4/N28_Cond10_EnvShape1_TMR4_norm_5_01.wav',       SRTcorrect: "their holiday was quite short and would end soon "},
+{SRTstim: 'eShapeStim/Set4/N29_Cond11_EnvShape2_TMR4_norm_3_10.wav',       SRTcorrect: "the recipe for the cake was easy to follow "},
+{SRTstim: 'eShapeStim/Set4/N30_Cond12_EnvShape3_TMR4_norm_51.wav',       SRTcorrect: "the pension payments were worth less and less every month"},
+{SRTstim: 'eShapeStim/Set4/N31_Cond13_EnvShape1_TMR5_norm_1_21.wav',       SRTcorrect: "the building had a nest in its roof  "},
+{SRTstim: 'eShapeStim/Set4/N32_Cond14_EnvShape2_TMR5_norm_17.wav',       SRTcorrect: "the drought was eased by the arrival of the monsoon"},
+{SRTstim: 'eShapeStim/Set4/N33_Cond15_EnvShape3_TMR5_norm_3_15.wav',       SRTcorrect: "the wife of the priest helped out the elderly "},
+{SRTstim: 'eShapeStim/Set4/N34_Cond16_EnvShape1_TMR6_norm_5_25.wav',       SRTcorrect: "the bruise on his knee was quite painful  "},
+{SRTstim: 'eShapeStim/Set4/N35_Cond17_EnvShape2_TMR6_norm_6_03.wav',       SRTcorrect: "the child was sad when her toys were damaged "},
+{SRTstim: 'eShapeStim/Set4/N36_Cond18_EnvShape3_TMR6_norm_5_21.wav',       SRTcorrect: "there was a really beautiful sunset that evening  "},
+{SRTstim: 'eShapeStim/Set4/N37_Cond19_EnvShape1_TMR7_norm_5_22.wav',       SRTcorrect: "it is common for people to avoid the dentist "},
+{SRTstim: 'eShapeStim/Set4/N38_Cond20_EnvShape2_TMR7_norm_4_15.wav',       SRTcorrect: "his briefcase was brown and was made of leather "},
+{SRTstim: 'eShapeStim/Set4/N39_Cond21_EnvShape3_TMR7_norm_3_17.wav',       SRTcorrect: "the fireman climbed down into the bottom of the tunnel"},
+{SRTstim: 'eShapeStim/Set4/N40_Cond1_EnvShape1_TMR1_norm_5_23.wav',       SRTcorrect: "the view from the top of the ridge was amazing"},
+{SRTstim: 'eShapeStim/Set4/N41_Cond2_EnvShape2_TMR1_norm_2_15.wav',       SRTcorrect: "the wax from the candle fell on the book "},
+{SRTstim: 'eShapeStim/Set4/N42_Cond3_EnvShape3_TMR1_norm_6_08.wav',       SRTcorrect: "her daughter was too young for the disco  "},
+];
+
+var b3 = [
+{SRTstim: 'eShapeStim/Set4/N43_Cond4_EnvShape1_TMR2_norm_3_25.wav',       SRTcorrect: "the fog in the valley was quite thick  "},
+{SRTstim: 'eShapeStim/Set4/N44_Cond5_EnvShape2_TMR2_norm_6_09.wav',       SRTcorrect: "the beef was rare just as the customer had requested"},
+{SRTstim: 'eShapeStim/Set4/N45_Cond6_EnvShape3_TMR2_norm_44.wav',         SRTcorrect: "airplanes are currently the best way to travel  "},
+{SRTstim: 'eShapeStim/Set4/N46_Cond7_EnvShape1_TMR3_norm_5_17.wav',       SRTcorrect: "a spoon was used to stir the cup of tea"},
+{SRTstim: 'eShapeStim/Set4/N47_Cond8_EnvShape2_TMR3_norm_4_04.wav',       SRTcorrect: "she laughed at the joke about the dog  "},
+{SRTstim: 'eShapeStim/Set4/N48_Cond9_EnvShape3_TMR3_norm_1_15.wav',       SRTcorrect: "the drink was too hot for the baby  "},
+{SRTstim: 'eShapeStim/Set4/N49_Cond10_EnvShape1_TMR4_norm_2_23.wav',       SRTcorrect: "the sketch showed that the road would pass the school"},
+{SRTstim: 'eShapeStim/Set4/N50_Cond11_EnvShape2_TMR4_norm_3_11.wav',       SRTcorrect: "she was sitting on the sofa in her bedroom "},
+{SRTstim: 'eShapeStim/Set4/N51_Cond12_EnvShape3_TMR4_norm_2_11.wav',       SRTcorrect: "snow is unusual in the summer in most countries "},
+{SRTstim: 'eShapeStim/Set4/N52_Cond13_EnvShape1_TMR5_norm_2_20.wav',       SRTcorrect: "the noise was very loud and difficult to ignore "},
+{SRTstim: 'eShapeStim/Set4/N53_Cond14_EnvShape2_TMR5_norm_4_22.wav',       SRTcorrect: "the child left all of his lunch at home "},
+{SRTstim: 'eShapeStim/Set4/N54_Cond15_EnvShape3_TMR5_norm_5_03.wav',       SRTcorrect: "a game of chess can last for four hours "},
+{SRTstim: 'eShapeStim/Set4/N55_Cond16_EnvShape1_TMR6_norm_6_01.wav',       SRTcorrect: "the elephant was huge just as the circus had wanted"},
+{SRTstim: 'eShapeStim/Set4/N56_Cond17_EnvShape2_TMR6_norm_4_17.wav',       SRTcorrect: "the camel was kept in a cage at the zoo"},
+{SRTstim: 'eShapeStim/Set4/N57_Cond18_EnvShape3_TMR6_norm_2_01.wav',       SRTcorrect: "there was beer and cider on the kitchen shelf "},
+{SRTstim: 'eShapeStim/Set4/N58_Cond19_EnvShape1_TMR7_norm_2_17.wav',       SRTcorrect: "He broke his leg when he fell off the horse"},
+{SRTstim: 'eShapeStim/Set4/N59_Cond20_EnvShape2_TMR7_norm_3_21.wav',       SRTcorrect: "the pattern on the rug was quite complex  "},
+{SRTstim: 'eShapeStim/Set4/N60_Cond21_EnvShape3_TMR7_norm_3_23.wav',       SRTcorrect: "the burglar came up over the wall of the palace"},
+{SRTstim: 'eShapeStim/Set4/N61_Cond1_EnvShape1_TMR1_norm_4_11.wav',       SRTcorrect: "her children saw a snake at the picnic  "},
+{SRTstim: 'eShapeStim/Set4/N62_Cond2_EnvShape2_TMR1_norm_5_11.wav',       SRTcorrect: "the blunt knife was rather awkward to use  "},
+{SRTstim: 'eShapeStim/Set4/N63_Cond3_EnvShape3_TMR1_norm_5_15.wav',       SRTcorrect: "the neighbors made a lot of noise last night "},
+];
+
+var b4 = [
+{SRTstim: 'eShapeStim/Set4/N64_Cond4_EnvShape1_TMR2_norm_32.wav',       SRTcorrect: "the bait should be suitable for catching rats  "},
+{SRTstim: 'eShapeStim/Set4/N65_Cond5_EnvShape2_TMR2_norm_30.wav',       SRTcorrect: "the croquet game could begin after the lawn was mowed"},
+{SRTstim: 'eShapeStim/Set4/N66_Cond6_EnvShape3_TMR2_norm_3_01.wav',       SRTcorrect: "the luggage should be kept in a large warehouse "},
+{SRTstim: 'eShapeStim/Set4/N67_Cond7_EnvShape1_TMR3_norm_33.wav',       SRTcorrect: "the pain tempted him to abort the climb  "},
+{SRTstim: 'eShapeStim/Set4/N68_Cond8_EnvShape2_TMR3_norm_5_20.wav',       SRTcorrect: "there were bracelets and necklaces in her jewellery box "},
+{SRTstim: 'eShapeStim/Set4/N69_Cond9_EnvShape3_TMR3_norm_1_08.wav',       SRTcorrect: "the shop was closed when she arrived there  "},
+{SRTstim: 'eShapeStim/Set4/N70_Cond10_EnvShape1_TMR4_norm_04.wav',       SRTcorrect: "they were concerned when the kid laughed at violent movies"},
+{SRTstim: 'eShapeStim/Set4/N71_Cond11_EnvShape2_TMR4_norm_1_20.wav',       SRTcorrect: "the carpet and the curtains were the same colour "},
+{SRTstim: 'eShapeStim/Set4/N72_Cond12_EnvShape3_TMR4_norm_2_22.wav',       SRTcorrect: "he reminded his parents about the game of football "},
+{SRTstim: 'eShapeStim/Set4/N73_Cond13_EnvShape1_TMR5_norm_6_02.wav',       SRTcorrect: "the bride smiled at the photo of her wedding "},
+{SRTstim: 'eShapeStim/Set4/N74_Cond14_EnvShape2_TMR5_norm_4_01.wav',       SRTcorrect: "the computer was sent back after the first month "},
+{SRTstim: 'eShapeStim/Set4/N75_Cond15_EnvShape3_TMR5_norm_5_09.wav',       SRTcorrect: "he guessed the answer to the question in the exam"},
+{SRTstim: 'eShapeStim/Set4/N76_Cond16_EnvShape1_TMR6_norm_4_20.wav',       SRTcorrect: "he was sitting at his desk in his office "},
+{SRTstim: 'eShapeStim/Set4/N77_Cond17_EnvShape2_TMR6_norm_3_20.wav',       SRTcorrect: "he always read a book before going to bed "},
+{SRTstim: 'eShapeStim/Set4/N78_Cond18_EnvShape3_TMR6_norm_3_02.wav',       SRTcorrect: "the boy was able to climb the mountain  "},
+{SRTstim: 'eShapeStim/Set4/N79_Cond19_EnvShape1_TMR7_norm_4_08.wav',       SRTcorrect: "she cleaned the wardrobe after she emptied it  "},
+{SRTstim: 'eShapeStim/Set4/N80_Cond20_EnvShape2_TMR7_norm_12.wav',       SRTcorrect: "the shrubs are watered regularly by the gardener  "},
+{SRTstim: 'eShapeStim/Set4/N81_Cond21_EnvShape3_TMR7_norm_1_25.wav',       SRTcorrect: "the traffic on the highway was very heavy  "},
+{SRTstim: 'eShapeStim/Set4/N82_Cond1_EnvShape1_TMR1_norm_34.wav',       SRTcorrect: "the fumes from the factory are unbearable in the village"},
+{SRTstim: 'eShapeStim/Set4/N83_Cond2_EnvShape2_TMR1_norm_6_25.wav',       SRTcorrect: "he ironed his shirt before he wore it  "},
+{SRTstim: 'eShapeStim/Set4/N84_Cond3_EnvShape3_TMR1_norm_60.wav',       SRTcorrect: "the flag was raised to the top of the flagpole"},
+];
+
+}
+
+else if (condition_assignment == 5){
+
+
+// Stimuli Set 5 --------------------------
+var audiopreload = [
+'eShapeStim/Set5/N1_Cond5_EnvShape2_TMR2_norm_01.wav',
+'eShapeStim/Set5/N2_Cond6_EnvShape3_TMR2_norm_03.wav',
+'eShapeStim/Set5/N3_Cond7_EnvShape1_TMR3_norm_2_21.wav',
+'eShapeStim/Set5/N4_Cond8_EnvShape2_TMR3_norm_4_02.wav',
+'eShapeStim/Set5/N5_Cond9_EnvShape3_TMR3_norm_1_23.wav',
+'eShapeStim/Set5/N6_Cond10_EnvShape1_TMR4_norm_3_22.wav',
+'eShapeStim/Set5/N7_Cond11_EnvShape2_TMR4_norm_4_25.wav',
+'eShapeStim/Set5/N8_Cond12_EnvShape3_TMR4_norm_1_09.wav',
+'eShapeStim/Set5/N9_Cond13_EnvShape1_TMR5_norm_6_21.wav',
+'eShapeStim/Set5/N10_Cond14_EnvShape2_TMR5_norm_1_17.wav',
+'eShapeStim/Set5/N11_Cond15_EnvShape3_TMR5_norm_2_25.wav',
+'eShapeStim/Set5/N12_Cond16_EnvShape1_TMR6_norm_5_08.wav',
+'eShapeStim/Set5/N13_Cond17_EnvShape2_TMR6_norm_1_22.wav',
+'eShapeStim/Set5/N14_Cond18_EnvShape3_TMR6_norm_4_05.wav',
+'eShapeStim/Set5/N15_Cond19_EnvShape1_TMR7_norm_2_09.wav',
+'eShapeStim/Set5/N16_Cond20_EnvShape2_TMR7_norm_49.wav',
+'eShapeStim/Set5/N17_Cond21_EnvShape3_TMR7_norm_46.wav',
+'eShapeStim/Set5/N18_Cond1_EnvShape1_TMR1_norm_1_03.wav',
+'eShapeStim/Set5/N19_Cond2_EnvShape2_TMR1_norm_4_09.wav',
+'eShapeStim/Set5/N20_Cond3_EnvShape3_TMR1_norm_27.wav',
+'eShapeStim/Set5/N21_Cond4_EnvShape1_TMR2_norm_4_03.wav',
+'eShapeStim/Set5/N22_Cond5_EnvShape2_TMR2_norm_6_23.wav',
+'eShapeStim/Set5/N23_Cond6_EnvShape3_TMR2_norm_4_21.wav',
+'eShapeStim/Set5/N24_Cond7_EnvShape1_TMR3_norm_6_17.wav',
+'eShapeStim/Set5/N25_Cond8_EnvShape2_TMR3_norm_3_09.wav',
+'eShapeStim/Set5/N26_Cond9_EnvShape3_TMR3_norm_4_23.wav',
+'eShapeStim/Set5/N27_Cond10_EnvShape1_TMR4_norm_6_11.wav',
+'eShapeStim/Set5/N28_Cond11_EnvShape2_TMR4_norm_5_01.wav',
+'eShapeStim/Set5/N29_Cond12_EnvShape3_TMR4_norm_3_10.wav',
+'eShapeStim/Set5/N30_Cond13_EnvShape1_TMR5_norm_51.wav',
+'eShapeStim/Set5/N31_Cond14_EnvShape2_TMR5_norm_1_21.wav',
+'eShapeStim/Set5/N32_Cond15_EnvShape3_TMR5_norm_17.wav',
+'eShapeStim/Set5/N33_Cond16_EnvShape1_TMR6_norm_3_15.wav',
+'eShapeStim/Set5/N34_Cond17_EnvShape2_TMR6_norm_5_25.wav',
+'eShapeStim/Set5/N35_Cond18_EnvShape3_TMR6_norm_6_03.wav',
+'eShapeStim/Set5/N36_Cond19_EnvShape1_TMR7_norm_5_21.wav',
+'eShapeStim/Set5/N37_Cond20_EnvShape2_TMR7_norm_5_22.wav',
+'eShapeStim/Set5/N38_Cond21_EnvShape3_TMR7_norm_4_15.wav',
+'eShapeStim/Set5/N39_Cond1_EnvShape1_TMR1_norm_3_17.wav',
+'eShapeStim/Set5/N40_Cond2_EnvShape2_TMR1_norm_5_23.wav',
+'eShapeStim/Set5/N41_Cond3_EnvShape3_TMR1_norm_2_15.wav',
+'eShapeStim/Set5/N42_Cond4_EnvShape1_TMR2_norm_6_08.wav',
+'eShapeStim/Set5/N43_Cond5_EnvShape2_TMR2_norm_3_25.wav',
+'eShapeStim/Set5/N44_Cond6_EnvShape3_TMR2_norm_6_09.wav',
+'eShapeStim/Set5/N45_Cond7_EnvShape1_TMR3_norm_44.wav',
+'eShapeStim/Set5/N46_Cond8_EnvShape2_TMR3_norm_5_17.wav',
+'eShapeStim/Set5/N47_Cond9_EnvShape3_TMR3_norm_4_04.wav',
+'eShapeStim/Set5/N48_Cond10_EnvShape1_TMR4_norm_1_15.wav',
+'eShapeStim/Set5/N49_Cond11_EnvShape2_TMR4_norm_2_23.wav',
+'eShapeStim/Set5/N50_Cond12_EnvShape3_TMR4_norm_3_11.wav',
+'eShapeStim/Set5/N51_Cond13_EnvShape1_TMR5_norm_2_11.wav',
+'eShapeStim/Set5/N52_Cond14_EnvShape2_TMR5_norm_2_20.wav',
+'eShapeStim/Set5/N53_Cond15_EnvShape3_TMR5_norm_4_22.wav',
+'eShapeStim/Set5/N54_Cond16_EnvShape1_TMR6_norm_5_03.wav',
+'eShapeStim/Set5/N55_Cond17_EnvShape2_TMR6_norm_6_01.wav',
+'eShapeStim/Set5/N56_Cond18_EnvShape3_TMR6_norm_4_17.wav',
+'eShapeStim/Set5/N57_Cond19_EnvShape1_TMR7_norm_2_01.wav',
+'eShapeStim/Set5/N58_Cond20_EnvShape2_TMR7_norm_2_17.wav',
+'eShapeStim/Set5/N59_Cond21_EnvShape3_TMR7_norm_3_21.wav',
+'eShapeStim/Set5/N60_Cond1_EnvShape1_TMR1_norm_3_23.wav',
+'eShapeStim/Set5/N61_Cond2_EnvShape2_TMR1_norm_4_11.wav',
+'eShapeStim/Set5/N62_Cond3_EnvShape3_TMR1_norm_5_11.wav',
+'eShapeStim/Set5/N63_Cond4_EnvShape1_TMR2_norm_5_15.wav',
+'eShapeStim/Set5/N64_Cond5_EnvShape2_TMR2_norm_32.wav',
+'eShapeStim/Set5/N65_Cond6_EnvShape3_TMR2_norm_30.wav',
+'eShapeStim/Set5/N66_Cond7_EnvShape1_TMR3_norm_3_01.wav',
+'eShapeStim/Set5/N67_Cond8_EnvShape2_TMR3_norm_33.wav',
+'eShapeStim/Set5/N68_Cond9_EnvShape3_TMR3_norm_5_20.wav',
+'eShapeStim/Set5/N69_Cond10_EnvShape1_TMR4_norm_1_08.wav',
+'eShapeStim/Set5/N70_Cond11_EnvShape2_TMR4_norm_04.wav',
+'eShapeStim/Set5/N71_Cond12_EnvShape3_TMR4_norm_1_20.wav',
+'eShapeStim/Set5/N72_Cond13_EnvShape1_TMR5_norm_2_22.wav',
+'eShapeStim/Set5/N73_Cond14_EnvShape2_TMR5_norm_6_02.wav',
+'eShapeStim/Set5/N74_Cond15_EnvShape3_TMR5_norm_4_01.wav',
+'eShapeStim/Set5/N75_Cond16_EnvShape1_TMR6_norm_5_09.wav',
+'eShapeStim/Set5/N76_Cond17_EnvShape2_TMR6_norm_4_20.wav',
+'eShapeStim/Set5/N77_Cond18_EnvShape3_TMR6_norm_3_20.wav',
+'eShapeStim/Set5/N78_Cond19_EnvShape1_TMR7_norm_3_02.wav',
+'eShapeStim/Set5/N79_Cond20_EnvShape2_TMR7_norm_4_08.wav',
+'eShapeStim/Set5/N80_Cond21_EnvShape3_TMR7_norm_12.wav',
+'eShapeStim/Set5/N81_Cond1_EnvShape1_TMR1_norm_1_25.wav',
+'eShapeStim/Set5/N82_Cond2_EnvShape2_TMR1_norm_34.wav',
+'eShapeStim/Set5/N83_Cond3_EnvShape3_TMR1_norm_6_25.wav',
+'eShapeStim/Set5/N84_Cond4_EnvShape1_TMR2_norm_60.wav',
+'eShapeStim/pinknoise_rms05.wav', 
+'eShapeStim/tone_200Hz_rms05_unaltered.wav',
+'eShapeStim/tone_200Hz_rms05_LR180phase.wav',
+'eShapeStim/tone_200Hz_initrms05_-6db.wav' ,'eShapeStim/o_key_adj.wav','eShapeStim/w_key_adj.wav'];
+
+
+var b1 = [
+{SRTstim: 'eShapeStim/Set5/N1_Cond5_EnvShape2_TMR2_norm_01.wav',       SRTcorrect: "the safety rules of the apartment were important to follow"},
+{SRTstim: 'eShapeStim/Set5/N2_Cond6_EnvShape3_TMR2_norm_03.wav',       SRTcorrect: "the win helped our team advance to the playoffs "},
+{SRTstim: 'eShapeStim/Set5/N3_Cond7_EnvShape1_TMR3_norm_2_21.wav',       SRTcorrect: "the boy was able to conceal his cigarette  "},
+{SRTstim: 'eShapeStim/Set5/N4_Cond8_EnvShape2_TMR3_norm_4_02.wav',       SRTcorrect: "he added milk and sugar to his coffee  "},
+{SRTstim: 'eShapeStim/Set5/N5_Cond9_EnvShape3_TMR3_norm_1_23.wav',       SRTcorrect: "his face showed that his team had lost the game"},
+{SRTstim: 'eShapeStim/Set5/N6_Cond10_EnvShape1_TMR4_norm_3_22.wav',       SRTcorrect: "he surprised his parents by his lack of concern "},
+{SRTstim: 'eShapeStim/Set5/N7_Cond11_EnvShape2_TMR4_norm_4_25.wav',       SRTcorrect: "she loved stories about fairies wizards and dragons  "},
+{SRTstim: 'eShapeStim/Set5/N8_Cond12_EnvShape3_TMR4_norm_1_09.wav',       SRTcorrect: "they told the truth about the fight to the teacher"},
+{SRTstim: 'eShapeStim/Set5/N9_Cond13_EnvShape1_TMR5_norm_6_21.wav',       SRTcorrect: "the rice was cooked in a large saucepan  "},
+{SRTstim: 'eShapeStim/Set5/N10_Cond14_EnvShape2_TMR5_norm_1_17.wav',       SRTcorrect: "the gambler lost most of his money at the races"},
+{SRTstim: 'eShapeStim/Set5/N11_Cond15_EnvShape3_TMR5_norm_2_25.wav',       SRTcorrect: "there was lettuce and cucumber in the salad  "},
+{SRTstim: 'eShapeStim/Set5/N12_Cond16_EnvShape1_TMR6_norm_5_08.wav',       SRTcorrect: "the juice was served in a large jug  "},
+{SRTstim: 'eShapeStim/Set5/N13_Cond17_EnvShape2_TMR6_norm_1_22.wav',       SRTcorrect: "he left school before he had done his exams "},
+{SRTstim: 'eShapeStim/Set5/N14_Cond18_EnvShape3_TMR6_norm_4_05.wav',       SRTcorrect: "the housewife was able to carry the bags of food"},
+{SRTstim: 'eShapeStim/Set5/N15_Cond19_EnvShape1_TMR7_norm_2_09.wav',       SRTcorrect: "gin was not a drink that her old man liked"},
+{SRTstim: 'eShapeStim/Set5/N16_Cond20_EnvShape2_TMR7_norm_49.wav',       SRTcorrect: "taking a hostage allowed the robbers to make their escape"},
+{SRTstim: 'eShapeStim/Set5/N17_Cond21_EnvShape3_TMR7_norm_46.wav',       SRTcorrect: "the platform started creaking alarmingly during the speech  "},
+{SRTstim: 'eShapeStim/Set5/N18_Cond1_EnvShape1_TMR1_norm_1_03.wav',       SRTcorrect: "the new owners of the house painted it pink "},
+{SRTstim: 'eShapeStim/Set5/N19_Cond2_EnvShape2_TMR1_norm_4_09.wav',       SRTcorrect: "the goat was as greedy as the family had expected"},
+{SRTstim: 'eShapeStim/Set5/N20_Cond3_EnvShape3_TMR1_norm_27.wav',       SRTcorrect: "she claimed that the bran tasted much nicer  "},
+{SRTstim: 'eShapeStim/Set5/N21_Cond4_EnvShape1_TMR2_norm_4_03.wav',       SRTcorrect: "the cake and the biscuits had the same flavour "},
+];
+
+var b2 = [
+{SRTstim: 'eShapeStim/Set5/N22_Cond5_EnvShape2_TMR2_norm_6_23.wav',       SRTcorrect: "the artefacts found at the dig were made of bronze"},
+{SRTstim: 'eShapeStim/Set5/N23_Cond6_EnvShape3_TMR2_norm_4_21.wav',       SRTcorrect: "the couple had been together for three years  "},
+{SRTstim: 'eShapeStim/Set5/N24_Cond7_EnvShape1_TMR3_norm_6_17.wav',       SRTcorrect: "an angry crowd was turned back at the government building"},
+{SRTstim: 'eShapeStim/Set5/N25_Cond8_EnvShape2_TMR3_norm_3_09.wav',       SRTcorrect: "there were tools made from gold found at the site"},
+{SRTstim: 'eShapeStim/Set5/N26_Cond9_EnvShape3_TMR3_norm_4_23.wav',       SRTcorrect: "the soup was kept in a carton in the fridge"},
+{SRTstim: 'eShapeStim/Set5/N27_Cond10_EnvShape1_TMR4_norm_6_11.wav',       SRTcorrect: "his girlfriend had chosen the picture on the wall "},
+{SRTstim: 'eShapeStim/Set5/N28_Cond11_EnvShape2_TMR4_norm_5_01.wav',       SRTcorrect: "their holiday was quite short and would end soon "},
+{SRTstim: 'eShapeStim/Set5/N29_Cond12_EnvShape3_TMR4_norm_3_10.wav',       SRTcorrect: "the recipe for the cake was easy to follow "},
+{SRTstim: 'eShapeStim/Set5/N30_Cond13_EnvShape1_TMR5_norm_51.wav',       SRTcorrect: "the pension payments were worth less and less every month"},
+{SRTstim: 'eShapeStim/Set5/N31_Cond14_EnvShape2_TMR5_norm_1_21.wav',       SRTcorrect: "the building had a nest in its roof  "},
+{SRTstim: 'eShapeStim/Set5/N32_Cond15_EnvShape3_TMR5_norm_17.wav',       SRTcorrect: "the drought was eased by the arrival of the monsoon"},
+{SRTstim: 'eShapeStim/Set5/N33_Cond16_EnvShape1_TMR6_norm_3_15.wav',       SRTcorrect: "the wife of the priest helped out the elderly "},
+{SRTstim: 'eShapeStim/Set5/N34_Cond17_EnvShape2_TMR6_norm_5_25.wav',       SRTcorrect: "the bruise on his knee was quite painful  "},
+{SRTstim: 'eShapeStim/Set5/N35_Cond18_EnvShape3_TMR6_norm_6_03.wav',       SRTcorrect: "the child was sad when her toys were damaged "},
+{SRTstim: 'eShapeStim/Set5/N36_Cond19_EnvShape1_TMR7_norm_5_21.wav',       SRTcorrect: "there was a really beautiful sunset that evening  "},
+{SRTstim: 'eShapeStim/Set5/N37_Cond20_EnvShape2_TMR7_norm_5_22.wav',       SRTcorrect: "it is common for people to avoid the dentist "},
+{SRTstim: 'eShapeStim/Set5/N38_Cond21_EnvShape3_TMR7_norm_4_15.wav',       SRTcorrect: "his briefcase was brown and was made of leather "},
+{SRTstim: 'eShapeStim/Set5/N39_Cond1_EnvShape1_TMR1_norm_3_17.wav',       SRTcorrect: "the fireman climbed down into the bottom of the tunnel"},
+{SRTstim: 'eShapeStim/Set5/N40_Cond2_EnvShape2_TMR1_norm_5_23.wav',       SRTcorrect: "the view from the top of the ridge was amazing"},
+{SRTstim: 'eShapeStim/Set5/N41_Cond3_EnvShape3_TMR1_norm_2_15.wav',       SRTcorrect: "the wax from the candle fell on the book "},
+{SRTstim: 'eShapeStim/Set5/N42_Cond4_EnvShape1_TMR2_norm_6_08.wav',       SRTcorrect: "her daughter was too young for the disco  "},
+];
+
+var b3 = [
+{SRTstim: 'eShapeStim/Set5/N43_Cond5_EnvShape2_TMR2_norm_3_25.wav',       SRTcorrect: "the fog in the valley was quite thick  "},
+{SRTstim: 'eShapeStim/Set5/N44_Cond6_EnvShape3_TMR2_norm_6_09.wav',       SRTcorrect: "the beef was rare just as the customer had requested"},
+{SRTstim: 'eShapeStim/Set5/N45_Cond7_EnvShape1_TMR3_norm_44.wav',       SRTcorrect: "airplanes are currently the best way to travel  "},
+{SRTstim: 'eShapeStim/Set5/N46_Cond8_EnvShape2_TMR3_norm_5_17.wav',       SRTcorrect: "a spoon was used to stir the cup of tea"},
+{SRTstim: 'eShapeStim/Set5/N47_Cond9_EnvShape3_TMR3_norm_4_04.wav',       SRTcorrect: "she laughed at the joke about the dog  "},
+{SRTstim: 'eShapeStim/Set5/N48_Cond10_EnvShape1_TMR4_norm_1_15.wav',       SRTcorrect: "the drink was too hot for the baby  "},
+{SRTstim: 'eShapeStim/Set5/N49_Cond11_EnvShape2_TMR4_norm_2_23.wav',       SRTcorrect: "the sketch showed that the road would pass the school"},
+{SRTstim: 'eShapeStim/Set5/N50_Cond12_EnvShape3_TMR4_norm_3_11.wav',       SRTcorrect: "she was sitting on the sofa in her bedroom "},
+{SRTstim: 'eShapeStim/Set5/N51_Cond13_EnvShape1_TMR5_norm_2_11.wav',       SRTcorrect: "snow is unusual in the summer in most countries "},
+{SRTstim: 'eShapeStim/Set5/N52_Cond14_EnvShape2_TMR5_norm_2_20.wav',       SRTcorrect: "the noise was very loud and difficult to ignore "},
+{SRTstim: 'eShapeStim/Set5/N53_Cond15_EnvShape3_TMR5_norm_4_22.wav',       SRTcorrect: "the child left all of his lunch at home "},
+{SRTstim: 'eShapeStim/Set5/N54_Cond16_EnvShape1_TMR6_norm_5_03.wav',       SRTcorrect: "a game of chess can last for four hours "},
+{SRTstim: 'eShapeStim/Set5/N55_Cond17_EnvShape2_TMR6_norm_6_01.wav',       SRTcorrect: "the elephant was huge just as the circus had wanted"},
+{SRTstim: 'eShapeStim/Set5/N56_Cond18_EnvShape3_TMR6_norm_4_17.wav',       SRTcorrect: "the camel was kept in a cage at the zoo"},
+{SRTstim: 'eShapeStim/Set5/N57_Cond19_EnvShape1_TMR7_norm_2_01.wav',       SRTcorrect: "there was beer and cider on the kitchen shelf "},
+{SRTstim: 'eShapeStim/Set5/N58_Cond20_EnvShape2_TMR7_norm_2_17.wav',       SRTcorrect: "He broke his leg when he fell off the horse"},
+{SRTstim: 'eShapeStim/Set5/N59_Cond21_EnvShape3_TMR7_norm_3_21.wav',       SRTcorrect: "the pattern on the rug was quite complex  "},
+{SRTstim: 'eShapeStim/Set5/N60_Cond1_EnvShape1_TMR1_norm_3_23.wav',       SRTcorrect: "the burglar came up over the wall of the palace"},
+{SRTstim: 'eShapeStim/Set5/N61_Cond2_EnvShape2_TMR1_norm_4_11.wav',       SRTcorrect: "her children saw a snake at the picnic  "},
+{SRTstim: 'eShapeStim/Set5/N62_Cond3_EnvShape3_TMR1_norm_5_11.wav',       SRTcorrect: "the blunt knife was rather awkward to use  "},
+{SRTstim: 'eShapeStim/Set5/N63_Cond4_EnvShape1_TMR2_norm_5_15.wav',       SRTcorrect: "the neighbors made a lot of noise last night "},
+];
+
+var b4 = [
+{SRTstim: 'eShapeStim/Set5/N64_Cond5_EnvShape2_TMR2_norm_32.wav',       SRTcorrect: "the bait should be suitable for catching rats  "},
+{SRTstim: 'eShapeStim/Set5/N65_Cond6_EnvShape3_TMR2_norm_30.wav',       SRTcorrect: "the croquet game could begin after the lawn was mowed"},
+{SRTstim: 'eShapeStim/Set5/N66_Cond7_EnvShape1_TMR3_norm_3_01.wav',       SRTcorrect: "the luggage should be kept in a large warehouse "},
+{SRTstim: 'eShapeStim/Set5/N67_Cond8_EnvShape2_TMR3_norm_33.wav',       SRTcorrect: "the pain tempted him to abort the climb  "},
+{SRTstim: 'eShapeStim/Set5/N68_Cond9_EnvShape3_TMR3_norm_5_20.wav',       SRTcorrect: "there were bracelets and necklaces in her jewellery box "},
+{SRTstim: 'eShapeStim/Set5/N69_Cond10_EnvShape1_TMR4_norm_1_08.wav',       SRTcorrect: "the shop was closed when she arrived there  "},
+{SRTstim: 'eShapeStim/Set5/N70_Cond11_EnvShape2_TMR4_norm_04.wav',       SRTcorrect: "they were concerned when the kid laughed at violent movies"},
+{SRTstim: 'eShapeStim/Set5/N71_Cond12_EnvShape3_TMR4_norm_1_20.wav',       SRTcorrect: "the carpet and the curtains were the same colour "},
+{SRTstim: 'eShapeStim/Set5/N72_Cond13_EnvShape1_TMR5_norm_2_22.wav',       SRTcorrect: "he reminded his parents about the game of football "},
+{SRTstim: 'eShapeStim/Set5/N73_Cond14_EnvShape2_TMR5_norm_6_02.wav',       SRTcorrect: "the bride smiled at the photo of her wedding "},
+{SRTstim: 'eShapeStim/Set5/N74_Cond15_EnvShape3_TMR5_norm_4_01.wav',       SRTcorrect: "the computer was sent back after the first month "},
+{SRTstim: 'eShapeStim/Set5/N75_Cond16_EnvShape1_TMR6_norm_5_09.wav',       SRTcorrect: "he guessed the answer to the question in the exam"},
+{SRTstim: 'eShapeStim/Set5/N76_Cond17_EnvShape2_TMR6_norm_4_20.wav',       SRTcorrect: "he was sitting at his desk in his office "},
+{SRTstim: 'eShapeStim/Set5/N77_Cond18_EnvShape3_TMR6_norm_3_20.wav',       SRTcorrect: "he always read a book before going to bed "},
+{SRTstim: 'eShapeStim/Set5/N78_Cond19_EnvShape1_TMR7_norm_3_02.wav',       SRTcorrect: "the boy was able to climb the mountain  "},
+{SRTstim: 'eShapeStim/Set5/N79_Cond20_EnvShape2_TMR7_norm_4_08.wav',       SRTcorrect: "she cleaned the wardrobe after she emptied it  "},
+{SRTstim: 'eShapeStim/Set5/N80_Cond21_EnvShape3_TMR7_norm_12.wav',       SRTcorrect: "the shrubs are watered regularly by the gardener  "},
+{SRTstim: 'eShapeStim/Set5/N81_Cond1_EnvShape1_TMR1_norm_1_25.wav',       SRTcorrect: "the traffic on the highway was very heavy  "},
+{SRTstim: 'eShapeStim/Set5/N82_Cond2_EnvShape2_TMR1_norm_34.wav',       SRTcorrect: "the fumes from the factory are unbearable in the village"},
+{SRTstim: 'eShapeStim/Set5/N83_Cond3_EnvShape3_TMR1_norm_6_25.wav',       SRTcorrect: "he ironed his shirt before he wore it  "},
+{SRTstim: 'eShapeStim/Set5/N84_Cond4_EnvShape1_TMR2_norm_60.wav',       SRTcorrect: "the flag was raised to the top of the flagpole"},
+];
+
+}
+
+// initial parameters
+const makeRepeated = (arr, repeats) => [].concat(...Array.from({ length: repeats }, () => arr)); //constant to repeat elements in array
+
+var Set_b1 = jsPsych.randomization.repeat(b1, 1);
+var Set_b2 = jsPsych.randomization.repeat(b2, 1);
+var Set_b3 = jsPsych.randomization.repeat(b3, 1);
+var Set_b4 = jsPsych.randomization.repeat(b4, 1);
+
+var B1SelectionIndex = 0;
+var B2SelectionIndex = 0;
+var B3SelectionIndex = 0;
+var B4SelectionIndex = 0;
+var blocknumb = 1;
+
+//-------Volume adjustment: introduction
+var Volumeadj_Intro = {
+	type: "html-button-response",
+	stimulus: "<p>You will now hear a stream of noise. Once the noise begins to play, please adjust your volume so that the sound is <b>comfortably loud</b>.</p><p> Keep in mind that you should not adjust the volume after this point." +
+			" Make sure to use headphones for any tasks that play sound. </p><p>Press <b>Continue </b> when you are ready to hear the noise. </p>",
+			  
+	choices: ['Continue'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+//-------Volume adjustment: plays noise
+var Volumeadj_noise = {
+	type: 'audio-button-response',
+	stimulus: 'eShapeStim/pinknoise_rms05.wav',
+    choices: ['REPLAY', 'CONTINUE'],
+    prompt: "<p>Press REPLAY if you need to hear the noise again. Press CONTINUE when you are ready to move forward. </p>",
+	//post_trial_gap: 250
+	// allow participants to end noise repeat by button press
+	on_finish: function(data){
+		if (data.button_pressed == 1){
+		 jsPsych.endCurrentTimeline();}
+	}
+};
+
+//-------Tone discrimination task: introduction
+var ToneDisc_Intro = {
+	type: "html-button-response",
+	stimulus: "<p>You will now complete a short perception task. During each trial, you will hear three brief consecutive tones. Your task is to determine which tone is the quietest. Please do not adjust your volume from here on out. </br>" +
+	"Click the button that corresponds to the tone you think was the quietest. There will be 6 trials in total. This section will last about 2 minutes. Make sure to use headphones. </p><p> Press <b>Begin </b> when you are ready to start. </p>",
+			  
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+
+//-------Tone discrimination task: stimuli
+var ToneDisc_unaltered = {
+	type: "audio-keyboard-response",
+	stimulus: 'eShapeStim/tone_200Hz_rms05_unaltered.wav',
+  	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 500
+};
+
+var ToneDisc_phaserev = {
+	type: "audio-keyboard-response",
+	stimulus:'eShapeStim/tone_200Hz_rms05_LR180phase.wav',
+  	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 500
+};
+
+var ToneDisc_ampReduce = {
+	type: "audio-keyboard-response",
+	stimulus:'eShapeStim/tone_200Hz_initrms05_-6db.wav',
+  	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 500
+};
+
+var ToneDisc_resp = {
+	type: "html-button-response",
+	stimulus: "<p>Which tone was the quietest? </p>",
+	choices: ['First', 'Second', 'Third' ],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+	//prompt: "<p>Which tone was the quietest?</p>"
+
+};
+
+// Show Letter of Information Form
+var LOI_trial = {
+type:'external-html',
+url: "consent_check.html",
+cont_btn: "start",
+};
+
+var consent_options = ["I agree to take part in this study"];
+var consent_trial = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "<p><b><u>Consent Form</u></b></p> <br><b>Project Title:</b> Studies in auditory category learning, memory, and generalization</p><br><b>Study Investigator's Name:</b> Stephen Van Hedger</p><br>I have read the Letter of Information, understood its contents, and agree to participate. I understand the requirements of this study and confirm that I am eligible to participate. I have been given sufficient time to consider the information and to seek advice if I chose to do so. I understand that I can contact the researcher(s) at any time if I have further questions. I understand that I am allowed to withdraw from the experiment at any time without giving a reason.</p>", name: 'Consent', options: consent_options, required:true}, 
+      
+    ],
+  };
+
+//-------Study description
+var study_intro = {
+type: "html-button-response",
+	stimulus: "<p> During this study you will be asked to complete three auditory perception tasks.</p><p> The first two auditory tasks are very short and will ask you to make basic loudness judgments about sounds you hear." +
+               " The purpose of these first two tasks is to allow you to adjust the computer volume to a comfortable listening level, as well as to confirm that your headphones are working properly.</p><p>For the third auditory task," +
+				" you will be asked to listen to speech sounds and provide responses based on your perception. Finally, you will be asked to answer a set of demographic and hearing questions. Once you are done, make sure to record the subject " +
+				"code that appears in order to submit to the experimenter and receive payment.</p> <p> Press <b>BEGIN</b> when you are ready to start. </p>",
+			  
+	choices: ['BEGIN'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+//-------Main task: intro
+var Envtrack_intro = {
+	type: "html-button-response",
+	stimulus: "<p>You will now complete a <b>speech perception task</b>.</p><p>On each trial, you will hear sentence spoken by a female voice with some background noise. Your task is to type back what you hear.</br>" +
+			  "The task will vary in difficulty: on some trials you may be able to hear several words, while on others you may not be able to hear any at all.</p><p> Please do your best to listen carefully and " +
+			  "type in as much of each sentence as you can. There are four blocks of trials, and each block lasts approximately five minutes. <p>At random points during the task, you may also hear a voice ask you " +
+			  "to press a button on the keyboard. Please follow the directions and press the button identified in the message.</p>" +
+			  "Make sure to use headphones during the task and to not adjust your volume. </p>" +
+			  "<p>After you are finished with all four task blocks you will be asked to complete a set of demographic and hearing questions.</p><p> Press <b>BEGIN</b> when you are ready to start. </p>",
+			  
+	choices: ['BEGIN'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'		  
+};
+
+
+//-------Main task: response trials
+var Envtrack_break = {
+	type: "html-button-response",
+	stimulus: function(){var blocktrial = blocknumb + 1 ; return  '<p>Continue to block ' + blocktrial + ' of 4 </p>';},
+	//"<p>Take a break.</p><p> Press <b>Continue</b> when you are ready to start the next block. </p>",
+			  
+	choices: ['Continue'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>',
+	on_finish: function() { 
+	blocknumb += 1;
+	
+	}
+	
+};
+
+var if_node = {
+    timeline: [Envtrack_break],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+       if(blocknumb == 4){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+
+var_attend1 ={
+type: "audio-keyboard-response",
+	stimulus:'eShapeStim/o_key_adj.wav',
+  	response_ends_trial: true,
+	trial_duration: 6000,
+	post_trial_gap: 250
+};
+
+var_attend2 ={
+type: "audio-keyboard-response",
+	stimulus:'eShapeStim/w_key_adj.wav',
+  	response_ends_trial: true,
+	trial_duration: 6000,
+	post_trial_gap: 250
+};
+
+
+
+var if_node_attend1 = {
+timeline: [var_attend1],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        if(B1SelectionIndex == attendtrial[i]){
+            return true;
+			i = i + 1;
+        } else {
+            return false;
+        }
+    }
+}
+
+
+var if_node_attend2 = {
+timeline: [var_attend2],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        if(B2SelectionIndex == attendtrial[i]){
+            return true;
+			i = i + 1;
+        } else {
+            return false;
+        }
+    }
+}
+
+
+var B1_preparation = {
+	type: "html-button-response",
+	stimulus: function(){var b1trial = B1SelectionIndex + 1; return  '<p>Trial ' + b1trial + ' of ' + Set_b1.length + '</p>';},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+
+var B2_preparation = {
+	type: "html-button-response",
+	stimulus: function(){var b2trial = B2SelectionIndex + 1; return  '<p>Trial ' + b2trial + ' of ' + Set_b2.length + '</p>';},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+var B3_preparation = {
+	type: "html-button-response",
+	stimulus: function(){var b3trial = B3SelectionIndex + 1; return  '<p>Trial ' + b3trial + ' of ' + Set_b3.length + '</p>';},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+var B4_preparation = {
+	type: "html-button-response",
+	stimulus: function(){var b4trial = B4SelectionIndex + 1; return  '<p>Trial ' + b4trial + ' of ' + Set_b4.length + '</p>';},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+
+var EnvB1_presentation = {
+	type: "audio-keyboard-response",
+	stimulus: function(){ return  Set_b1[B1SelectionIndex].SRTstim;},
+	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 250
+};
+
+var EnvB2_presentation = {
+	type: "audio-keyboard-response",
+	stimulus: function(){ return  Set_b2[B2SelectionIndex].SRTstim;},
+	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 250
+};
+
+var EnvB3_presentation = {
+	type: "audio-keyboard-response",
+	stimulus: function(){ return  Set_b3[B3SelectionIndex].SRTstim;},
+	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 250
+};
+
+var EnvB4_presentation = {
+	type: "audio-keyboard-response",
+	stimulus: function(){ return  Set_b4[B4SelectionIndex].SRTstim;},
+	trial_ends_after_audio: true,
+	response_ends_trial: false,
+	post_trial_gap: 250
+};
+
+var EnvB1_response = {
+	type: "survey-text",
+	questions: [{prompt: "", rows: 2, columns: 40}],
+	post_trial_gap: 250,
+	preamble: "<p>To the best of your ability, please type back exactly what you just heard.</br>Do not worry about capitalization. Please try your best to spell as accurately as possible.</p>",
+	on_finish: function(data){
+		var answer = JSON.parse(jsPsych.data.get().last(1).values()[0].responses).Q0; //this is the extracted string they typed
+		var correctSRT = Set_b1[B1SelectionIndex].SRTcorrect;
+		
+		var answerNew = answer.split('.').join(""); //remove period punctuation
+		answerNew = answerNew.split(',').join(""); //remove comma punctuation
+		answerNew = answerNew.split('!').join(""); //remove comma punctuation
+
+		answerNew = answerNew.toUpperCase(); //standardize capitalization
+		
+		correctSRT = correctSRT.toUpperCase(); //standardize capitalization
+		
+		var answer_parsed = answerNew.split(" "); //split typed-in answer based on space
+		
+		var correctSRT_parsed = correctSRT.split(" "); //split correct answer based on space
+		
+		jsPsych.data.addDataToLastTrial({
+			  designation: "B1-TRIAL",
+			  correct: correctSRT_parsed,
+			  response: answer_parsed,
+			 });
+		
+		B1SelectionIndex += 1;
+		//console.log(TEST, propwords_correct.toFixed(3)); 
+	}
+};
+
+var EnvB2_response = {
+	type: "survey-text",
+	questions: [{prompt: "", rows: 2, columns: 40}],
+	post_trial_gap: 250,
+	preamble: "<p>To the best of your ability, please type back exactly what you just heard.</br>Do not worry about capitalization. Please try your best to spell as accurately as possible.</p>",
+	on_finish: function(data){
+		var answer = JSON.parse(jsPsych.data.get().last(1).values()[0].responses).Q0; //this is the extracted string they typed
+		var correctSRT = Set_b2[B2SelectionIndex].SRTcorrect;
+		
+		var answerNew = answer.split('.').join(""); //remove period punctuation
+		answerNew = answerNew.split(',').join(""); //remove comma punctuation
+		answerNew = answerNew.split('!').join(""); //remove comma punctuation
+
+		answerNew = answerNew.toUpperCase(); //standardize capitalization
+		
+		correctSRT = correctSRT.toUpperCase(); //standardize capitalization
+		
+		var answer_parsed = answerNew.split(" "); //split typed-in answer based on space
+		
+		var correctSRT_parsed = correctSRT.split(" "); //split correct answer based on space
+		
+		jsPsych.data.addDataToLastTrial({
+			  designation: "B2-TRIAL",
+			  correct: correctSRT_parsed,
+			  response: answer_parsed,
+			 });
+		
+		B2SelectionIndex += 1;
+		//console.log(TEST, propwords_correct.toFixed(3)); 
+	}
+};
+
+var EnvB3_response = {
+	type: "survey-text",
+	questions: [{prompt: "", rows: 2, columns: 40}],
+	post_trial_gap: 250,
+	preamble: "<p>To the best of your ability, please type back exactly what you just heard.</br>Do not worry about capitalization. Please try your best to spell as accurately as possible.</p>",
+	on_finish: function(data){
+		var answer = JSON.parse(jsPsych.data.get().last(1).values()[0].responses).Q0; //this is the extracted string they typed
+		var correctSRT = Set_b3[B3SelectionIndex].SRTcorrect;
+		
+		var answerNew = answer.split('.').join(""); //remove period punctuation
+		answerNew = answerNew.split(',').join(""); //remove comma punctuation
+		answerNew = answerNew.split('!').join(""); //remove comma punctuation
+
+		answerNew = answerNew.toUpperCase(); //standardize capitalization
+		
+		correctSRT = correctSRT.toUpperCase(); //standardize capitalization
+		
+		var answer_parsed = answerNew.split(" "); //split typed-in answer based on space
+		
+		var correctSRT_parsed = correctSRT.split(" "); //split correct answer based on space
+		
+		jsPsych.data.addDataToLastTrial({
+			  designation: "B3-TRIAL",
+			  correct: correctSRT_parsed,
+			  response: answer_parsed,
+			 });
+		
+		B3SelectionIndex += 1;
+		//console.log(TEST, propwords_correct.toFixed(3)); 
+	}
+};
+
+var EnvB4_response = {
+	type: "survey-text",
+	questions: [{prompt: "", rows: 2, columns: 40}],
+	post_trial_gap: 250,
+	preamble: "<p>To the best of your ability, please type back exactly what you just heard.</br>Do not worry about capitalization. Please try your best to spell as accurately as possible.</p>",
+	on_finish: function(data){
+		var answer = JSON.parse(jsPsych.data.get().last(1).values()[0].responses).Q0; //this is the extracted string they typed
+		var correctSRT = Set_b4[B4SelectionIndex].SRTcorrect;
+		
+		var answerNew = answer.split('.').join(""); //remove period punctuation
+		answerNew = answerNew.split(',').join(""); //remove comma punctuation
+		answerNew = answerNew.split('!').join(""); //remove comma punctuation
+
+		answerNew = answerNew.toUpperCase(); //standardize capitalization
+		
+		correctSRT = correctSRT.toUpperCase(); //standardize capitalization
+		
+		var answer_parsed = answerNew.split(" "); //split typed-in answer based on space
+		
+		var correctSRT_parsed = correctSRT.split(" "); //split correct answer based on space
+		
+		jsPsych.data.addDataToLastTrial({
+			  designation: "B4-TRIAL",
+			  correct: correctSRT_parsed,
+			  response: answer_parsed,
+			 });
+		
+		B4SelectionIndex += 1;
+		//console.log(TEST, propwords_correct.toFixed(3)); 
+	}
+};
+
+
+// Demographics: headphone question set
+var button_soundcheck = {
+    type: 'html-button-response',
+    stimulus: "<p>Did you have any technical difficulties during the study, making you unable to hear any of the sounds?</p>",
+    choices: ['Yes', 'No'],
+    //prompt: "<p>What color is this word?</p>"
+    
+  };
+
+
+// Demographics: headphone question set
+var button_headphones = {
+    type: 'html-button-response',
+    stimulus: "<p>Did you end up using headphones during the task sections with sound?</p>",
+    choices: ['Yes', 'No'],
+    //prompt: "<p>What color is this word?</p>"
+    
+  };
+
+var button_headphones_opt = {
+    type: 'survey-text',
+	questions: [
+      {prompt: "<p>What type of headphones did you use? (for example: in-ear, over-the-ear, etc.)</p>", columns: 100,  name: 'Headphone: Identify'},
+     ],
+
+  };  
+    
+var headphones_if_node = {
+    timeline: [button_headphones_opt],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.button_pressed == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+  
+
+// Demographics: Intro main Set
+var demointro_genset = {
+	type: 'html-button-response',
+	stimulus: function(){return "<p>During the next section you will be asked some questions about your demographics and hearing. You don't need to wear headphones from here on out. </p>";},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+   
+// Demographics: Gender question set
+var button_gender = {
+    type: 'html-button-response',
+    stimulus: "<p>What is your gender?</p>",
+    choices: ['Male', 'Female', 'Other'],
+    //prompt: "<p>What color is this word?</p>"
+    
+  };
+var survey_gender_opt = {
+    type: 'survey-text',
+    questions: [
+      {prompt: 'Since you selected "Other" to the previous question about gender, please answer the following.</p><p>I identify as: ', columns: 100,  name: 'Gender: Identify'},
+      
+    ],
+    
+  };  
+  
+var genderif_node = {
+    timeline: [survey_gender_opt],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.button_pressed == 2){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+// Demographics: music question set
+var button_music = {
+    type: 'html-button-response',
+    stimulus: "<p>Have you ever played a musical instrument? Vocalists and those who have sung in a group (e.g., choir) should also answer yes to this question.</p>",
+    choices: ['Yes', 'No'],
+    //prompt: "<p>What color is this word?</p>"
+    
+  };
+  
+var survey_music_opt = {
+    type: 'survey-text',
+    questions: [
+      {prompt: 'Which musical instrument have you played? If more than one, separate each instrument with a comma.', columns: 100,  name: 'Instrument: Identify1'},
+	  {prompt: 'For how many years did you play the instrument/s identified in the previous question? If more than one, separate answers with a comma.', columns: 100,  name: 'Instrument: Identify2'},
+	  {prompt: 'Of the years spent playing a musical instrument, how many consisted of formal musical training (i.e., group or private lessons, excluding elementary classroom activities)? If you had formal lessons for more than one instrument, separate answers with a comma.', columns: 100,  name: 'Instrument: Identify3'}, 
+      {prompt: 'Do you currently play a musical instrument (vocalists should also answer yes)? If so, please specify which instruments you play currently, separating multiple instruments with a comma.', columns: 100,  name: 'Instrument: Identify4'},
+    ],
+    
+  };  
+  
+var musicif_node = {
+    timeline: [survey_music_opt],
+    conditional_function: function(){
+        // get the data from the previous trial,
+        // and check which key was pressed
+        var data = jsPsych.data.get().last(1).values()[0];
+        if(data.button_pressed == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+
+// Demographics: General questions  
+ var survey_general = {
+    type: 'survey-text',
+    questions: [
+      {prompt: 'How old are you?', columns: 3, name: 'Age'},
+	  {prompt: 'What is the first language you learned?', columns: 50, name: 'LanguageFirst'},
+	  {prompt: 'If English is not your first language, at what age did you learn English?', columns: 3, name: 'LanguageAge_alt'},
+	  {prompt: 'What other languages do you know? Please also rank your degree of fluency (1- very fluent, 6- Slightly). ', columns: 150, name: 'Language_other'},
+    ],
+    randomize_question_order: false
+  };
+ 
+ 
+ var handed_options = ["Right", "Left", "Both"];
+ var vision_options = ["Yes, I am wearing my glasses/contacts now.", "Yes, but I am not my wearing glasses/contacts.", "No, I don't wear glasses/contacts"];
+ var hearing_options = ["No", "Yes, left ear only.", "Yes, right ear only." , "Yes, both ears."];
+ var ringing_options = ["Sometimes", "Always", "Never"];
+ var ringing_options_opt = ["Both", "Left", "Right", "Does not apply to me."];
+ var yn_options = ["Yes", "No"];
+
+ var survey_choice_block = {
+    type: 'survey-multi-choice',
+    questions: [
+      {prompt: "Which hand do you write with?", options: handed_options, name: 'Handed', required: false, horizontal: false}, 
+      {prompt: "Is your vision corrected?", options: vision_options, name: 'Vision',required: false, horizontal: false},
+	  {prompt: "Do you wear a hearing aid?", options: hearing_options,name: 'Hearing Aid', required: false, horizontal: false},
+	  {prompt: "Do you every get ringing in your ears?", options: ringing_options, name: 'Ringing_P1', required: false, horizontal: false},
+	  {prompt: "If you get ringing in your ears, which ear is affected?", options: ringing_options_opt, name: 'Ringing_P2', required: false, horizontal: false},
+      {prompt: "Do you frequently get ear infections?", options: yn_options, required: false, name: 'Ear Infections',horizontal: false},
+	  {prompt: "Have you ever been diagnosed with any kind of neurological disease?", options: yn_options, required: false, name: 'Neuro', horizontal: false},
+
+    ],
+  };
+
+// Demographics: General hearing  
+ var gen_scale = ["<p>0<p>(Not at all)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "<p>10<p>(perfectly)"];
+ var gen_scale_abbrev = ["<p>0<p>(Bad)", "1", "2", "3", "4", "5", "<p>6<p>(Good)"];
+
+  var likert_general_hearing = {
+      type: 'survey-likert',
+      questions: [
+        {prompt: "How would you rate your general hearing abilities.", name: 'General Hearing', labels: gen_scale_abbrev}, 
+		{prompt: "When you talk with someone at a place that strongly reverberates/echoes (e.g., in a church or train station), can you understand what the person says?", name: 'Sound Segregation', labels: gen_scale}, 
+        {prompt: "When you are with a group (~5 people) in a lively restaurant, can you follow the group’s conversation?", name: 'Sound Segregation', labels: gen_scale},
+		{prompt: "Based on the sound of a bus or truck, can you tell whether it is moving towards or away from you?", name: 'Sound Localization', labels: gen_scale},
+		{prompt: "When you are in an unknown environment, can you tell from which direction a brief sound originates?", name: 'Sound Localization', labels: gen_scale},
+		{prompt: "Are you able to ignore distracting sounds when you concentrate on a specific aspect of your acoustic surrounding?", name: 'Distractability', labels: gen_scale},
+		
+      ],
+	 
+      scale_width: 750
+  };
+
+// Demographics Likert Intro: Withdrawal, Avoidance, Importance,Slider
+var demointro_mainset = {
+	type: 'html-button-response',
+	stimulus: function(){return '<p>The items in this next section describe a variety of feelings, attitudes, and beliefs about listening and communication.</p>' +
+								'<p>Read each item carefully and decide whether you agree or disagree with the idea expressed.</p>' + 
+								'<p>Rate each statement accurately on a scale ranging from “strongly disagree” to “strongly agree” according to whether it describes your beliefs, feelings, attitudes, or experience.</p>';},
+	choices: ['Begin'],
+	post_trial_gap: 250,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+};
+
+// Demographics Likert Details: Withdrawal
+ var scale = ["Strongly Disagree", "Somewhat Disagree", "Disagree", "Neutral", "Agree", "Somewhat Agree", "Strongly Agree"];
+
+  var likert_trial_Withdrawal = {
+      type: 'survey-likert',
+      questions: [
+        {prompt: "I tend to zone out of conversations when listening is difficult.", name: 'Withdrawal_1', labels: scale}, 
+        {prompt: "In loud or noisy environments, I often just nod and smile, but do not follow a conversation.", name: 'Withdrawal_2', labels: scale},
+		{prompt: "I commonly “switch off” from conversations when I have difficulty understanding.", name: 'Withdrawal_3', labels: scale},
+		{prompt: "I often pretend to follow a conversation when listening is difficult.", name: 'Withdrawal_4', labels: scale},
+		{prompt: "I struggle staying engaged in a conversation because of hearing difficulties.", name: 'Withdrawal_5', labels: scale},
+		{prompt: "I tend to stop following a conversation when listening is difficult.", name: 'Withdrawal_6', labels: scale},
+		{prompt: "Sometimes I miss so much of what is being said that I feel left out.", name: 'Withdrawal_7', labels: scale}
+      ],
+	  randomize_question_order: false,
+      scale_width: 750
+  };
+
+//Demographics Likert Details: Avoidance
+
+  var likert_trial_Avoidance = {
+      type: 'survey-likert',
+      questions: [
+        {prompt: "I avoid public places, such as restaurants, cafes, or bars, because I find them too loud or noisy.", name: 'Avoidance_1', labels: scale}, 
+        {prompt: "I would rather not go if I expect the sound environment to be loud or noisy.", name: 'Avoidance_2', labels: scale},
+		{prompt: "I withdraw from social talk because of hearing difficulties.", name: 'Avoidance_3', labels: scale},
+		{prompt: "I dislike going places with friends/family because I experience hearing difficulties.", name: 'Avoidance_4', labels: scale}		
+      ],
+	  randomize_question_order: false,
+      scale_width: 750
+  };
+  
+//Demographics Likert Details: Importance
+
+  var likert_trial_Importance = {
+      type: 'survey-likert',
+      questions: [
+        {prompt: "Interacting with friends/family in public places (e.g., restaurants, cafes, bars, etc.) is important to me.", name: 'Importance_1', labels: scale}, 
+        {prompt: "I enjoy conversations with friends/family.", name: 'Importance_2', labels: scale},
+		{prompt: "I am a social person.", name: 'Importance_3', labels: scale},
+		{prompt: "I like meeting friends/family in publics places such as restaurants, cafes, bars, etc.", name: 'Importance_4', labels: scale}
+      ],
+	  randomize_question_order: false,
+      scale_width: 750
+  };
+
+//Demographics Likert Details: Slider Questions
+ var strial_1 = {
+    type: 'html-slider-response',
+    stimulus: '<p>How often do you zone out of conversations because of hearing difficulties? </p>',
+    labels: ["0% of the time","50% of the time","100% of the time"],
+	start: 0,
+    slider_width: 750,
+    prompt: '<p>Use the slider above.</p>'
+  };
+
+  var strial_2 = {
+    type: 'html-slider-response',
+    stimulus: '<p>How often do you choose not to go out in public places because of hearing difficulties?</p>',
+    labels: ["0% of the time","50% of the time","100% of the time"],
+    start: 0,
+    slider_width: 750,
+    prompt: '<p>Use the slider above. </p>',
+ 
+  };
+
+//Demographics Likert Intro: Boredom
+var demointro_boredom = {
+	type: 'html-button-response',
+	stimulus: function(){return '<p>The items in this final section describe a variety of feelings, attitudes, and beliefs about broad experiences in your life.</p>' +
+								'<p>Read each item carefully and decide whether you agree or disagree with the idea expressed.</p>' + 
+								'<p>Rate each statement accurately on a scale ranging from “strongly disagree” to “strongly agree” according to whether it describes your beliefs, feelings, attitudes, or experience.</p>';},
+	choices: ['Begin'],
+	post_trial_gap: 750,
+	button_html: '<button class="buttonStyle">%choice%</button>'
+}
+
+
+//Demographics Likert Details: Boredom
+  var likert_trial_Boredom = {
+      type: 'survey-likert',
+      questions: [
+        {prompt: "I often find myself at “loose ends,” not knowing what to do.", name: 'Boredom_1', labels: scale}, 
+        {prompt: "I find it hard to entertain myself.", name: 'Boredom_2', labels: scale},
+		{prompt: "Many things I have to do are repetitive and monotonous.", name: 'Boredom_3', labels: scale},
+		{prompt: "It takes more stimulation to get me going than most people.", name: 'Boredom_4', labels: scale},
+		{prompt: "I don’t feel motivated by most things that I do.", name: 'Boredom_5', labels: scale},
+		{prompt: "In most situations, it is hard for me to find something to do or see to keep me interested.", name: 'Boredom_6', labels: scale},
+		{prompt: "Much of the time, I just sit around doing nothing.", name: 'Boredom_7', labels: scale},
+		{prompt: "Unless I am doing something exciting, even dangerous, I feel half-dead and dull.", name: 'Boredom_8', labels: scale}
+      ],
+	  randomize_question_order: false,
+      scale_width: 750
+  };
+
+// Demographics Final: set timeline
+ var demo_timeline= {
+	timeline: [  button_soundcheck, button_headphones,headphones_if_node, demointro_genset,button_gender,genderif_node,button_music, musicif_node,survey_general,survey_choice_block,likert_general_hearing,demointro_mainset,likert_trial_Withdrawal,likert_trial_Avoidance,likert_trial_Importance,strial_1,strial_2,demointro_boredom,likert_trial_Boredom]
+}
+  
+//---------------- Determine trial order for each experiment section-------------------------
+
+// Pink Noise: option to repeat
+var NoisePlay = {timeline: makeRepeated([Volumeadj_noise],20)
+}
+
+
+// Tone Discrimination: tone order possibilities
+
+var ToneDisc_1 = {
+	timeline: [ToneDisc_unaltered, ToneDisc_phaserev,  ToneDisc_ampReduce, ToneDisc_resp]}
+	
+var ToneDisc_2 = {
+	timeline: [ToneDisc_unaltered, ToneDisc_ampReduce, ToneDisc_phaserev,  ToneDisc_resp]}
+	
+var ToneDisc_3 = {
+	timeline: [ToneDisc_phaserev,  ToneDisc_ampReduce, ToneDisc_unaltered, ToneDisc_resp]}
+	
+var ToneDisc_4 = {
+	timeline: [ToneDisc_phaserev,  ToneDisc_unaltered, ToneDisc_ampReduce, ToneDisc_resp]}
+	
+var ToneDisc_5 = {
+	timeline: [ToneDisc_ampReduce, ToneDisc_phaserev,  ToneDisc_unaltered, ToneDisc_resp]}
+	
+var ToneDisc_6 = {
+	timeline: [ToneDisc_ampReduce, ToneDisc_unaltered, ToneDisc_phaserev,  ToneDisc_resp]}
+	
+// Tone Discrimination: concatenate trial orders	
+var myArray = [ToneDisc_1,ToneDisc_2,ToneDisc_3,ToneDisc_4,ToneDisc_5,ToneDisc_6];
+var shuffledArray = jsPsych.randomization.repeat(myArray,1);
+
+// Tone Discrimination: final random order 	
+var ToneDiscTask = {
+timeline: timeline.concat(shuffledArray)
+}
+	
+	
+// Main task: set block procedure
+var Env_B1mainproc = {
+	timeline: makeRepeated([B1_preparation, EnvB1_presentation, EnvB1_response,if_node_attend1],21)
+}
+
+var Env_B2mainproc = {
+	timeline: makeRepeated([B2_preparation, EnvB2_presentation, EnvB2_response,if_node_attend2],21)
+}
+
+var Env_B3mainproc = {
+	timeline: makeRepeated([B3_preparation, EnvB3_presentation, EnvB3_response],21)
+}
+
+
+var Env_B4mainproc = {
+	timeline: makeRepeated([B4_preparation, EnvB4_presentation, EnvB4_response],21)
+}
+
+// Main task: concatenate blocks and randomize	
+
+var B1protocol = {
+	timeline: [Env_B1mainproc,if_node]}
+	
+var B2protocol = {
+	timeline:[Env_B2mainproc,if_node]}
+	
+var B3protocol = {
+	timeline:[Env_B3mainproc,if_node]}
+	
+var B4protocol = {
+	timeline:[Env_B4mainproc,if_node]}
+	
+var FinalMainArray = 	[B1protocol,B2protocol,B3protocol,B4protocol];
+
+var shuffledmainArray = jsPsych.randomization.repeat(FinalMainArray, 1);
+
+// Main task: final random order 	
+var FinalMainTask = {
+timeline: timeline.concat(shuffledmainArray)
+}
+
+//FINAL SCREEN
+var final_screen = {
+	type: 'html-button-response',
+	stimulus: function(){return '<p>Thank you for your responses. Please record the code below to submit to the experimenter.</p><p>Code: ' +  subject_id + '<p> Press the <b>End</b> button to end the session.</p>';},
+	choices: ['End'],
+	button_html: '<button class="buttonStyle">%choice%</button>'
+}
+
+
+// Set final timeline
+
+var enshape_timeline_final = {
+	timeline: [pavlovia_init,LOI_trial, consent_trial, study_intro, Volumeadj_Intro , NoisePlay, ToneDisc_Intro, ToneDiscTask, Envtrack_intro, FinalMainTask, demo_timeline,pavlovia_finish, final_screen ]
+
+}
+
+timeline.push(enshape_timeline_final);
+
+
+     jsPsych.init({
+        timeline: timeline,
+		preload_audio: audiopreload,
+	   //on_finish: function(){jsPsych.data.get().localSave('csv','mydata.csv');}
+		
+      });
+	   	  
+    </script>
+  </body>
+</html>
+
+
+
+
